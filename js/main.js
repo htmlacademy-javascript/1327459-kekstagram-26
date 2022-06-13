@@ -16,10 +16,6 @@ getRandomInt(2.4, 5.2);
 
 //Функция для проверки максимальной длины строки
 function checkStringLength (currentString, maxLength) {
-  if (currentString.length <= maxLength) {
-    return true;
-  }
-
-  return false;
+  return currentString.length <= maxLength;
 }
 checkStringLength ('Проверка!', 100);
