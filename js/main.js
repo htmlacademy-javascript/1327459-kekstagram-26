@@ -1,21 +1,27 @@
-//Функция возвращает случайное целое число из заданного диапазона включительно
-function getRandomInt(min, max) {
-  if (min < 0 || max < 0) {
-    return 'Диапазон чисел должен быть положительным!';
-  }
-
-  if (min >= max) {
-    return 'Нижняя граница диапазона должна быть меньше верхней!';
-  }
-
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+function getRandomInt(numberA, numberB) {
+  const rangeStart = Math.ceil(Math.min(Math.abs(numberA), Math.abs(numberB)));
+  const rangeEnd = Math.floor(Math.max(Math.abs(numberA), Math.abs(numberB)));
+  return Math.floor(Math.random() * (rangeEnd - rangeStart + 1)) + rangeStart;
 }
-getRandomInt(2.4, 5.2);
 
-//Функция для проверки максимальной длины строки
 function checkStringLength (currentString, maxLength) {
   return currentString.length <= maxLength;
 }
-checkStringLength ('Проверка!', 100);
+
+const photoExposition = {
+  id: '',
+  url: '',
+  description: '',
+  likes: '',
+  comments: [{id: '', avatar: '', message: '', name: ''}, {}, {}]
+};
+
+const PHRASES = [
+  'Всё отлично!',
+  'В целом всё неплохо. Но не всё.',
+  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
+  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
+  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
+  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
+];
+
