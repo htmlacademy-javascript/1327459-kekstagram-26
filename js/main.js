@@ -31,29 +31,28 @@ const DESCRIPTIONS = [
   'Отправь это фото самому близкому тебе человеку.'
 ];
 
-const PHOTOS_NUMBER = 25;
-
-const MIN_LIKES_NUMBER = 15;
-const MAX_LIKES_NUMBER = 200;
-
-const MIN_COMMENTS_NUMBER = 1;
-const MAX_COMMENTS_NUMBER = 5;
-
+//Функция, возвращающая случайное целое положительное число из заданного интервала
 const getRandomInt = function (numberA, numberB) {
   const rangeStart = Math.ceil(Math.min(Math.abs(numberA), Math.abs(numberB)));
   const rangeEnd = Math.floor(Math.max(Math.abs(numberA), Math.abs(numberB)));
   return Math.floor(Math.random() * (rangeEnd - rangeStart + 1)) + rangeStart;
 };
 
+//Функция для проверки длины строки
 const checkStringLength = function (currentString, maxLength) {
   return currentString.length <= maxLength;
 };
 
 checkStringLength('Проверка!', 100);
 
+//Функция для выбора случайного элемента из массива
 const getRandomArrayElement = function (someArray) {
   return someArray[getRandomInt(0, someArray.length-1)];
 };
+
+//Генерируем массив из комментариев
+const MIN_COMMENTS_NUMBER = 1;
+const MAX_COMMENTS_NUMBER = 5;
 
 const getComments = function (number = getRandomInt(MIN_COMMENTS_NUMBER, MAX_COMMENTS_NUMBER)) {
   const commentsArray = [];
@@ -67,6 +66,12 @@ const getComments = function (number = getRandomInt(MIN_COMMENTS_NUMBER, MAX_COM
   }
   return commentsArray;
 };
+
+//Генерируем массив из фотографий
+const PHOTOS_NUMBER = 25;
+
+const MIN_LIKES_NUMBER = 15;
+const MAX_LIKES_NUMBER = 200;
 
 const getPhotoExpositions = function (number = PHOTOS_NUMBER) {
   const photoExpositionsArray = [];
