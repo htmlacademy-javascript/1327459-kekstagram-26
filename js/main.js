@@ -40,10 +40,7 @@ const PHRASES = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ];
 
-const MIN_COMMENTS_NUMBER = 1;
-const MAX_COMMENTS_NUMBER = 5;
-
-const getComments = function (number = getRandomInt(MIN_COMMENTS_NUMBER, MAX_COMMENTS_NUMBER)) {
+const getComments = function (number = getRandomInt(1, 5)) {
   const commentsArray = [];
   for (let i = 0; i < number; i++) {
     commentsArray[i] = {
