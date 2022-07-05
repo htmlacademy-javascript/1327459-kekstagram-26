@@ -45,8 +45,8 @@ const checkStringLength = function (currentString, maxLength) {
 checkStringLength('Проверка!', 100);
 
 //Функция для выбора случайного элемента из массива
-const getRandomArrayElement = function (someArray) {
-  return someArray[getRandomInt(0, someArray.length-1)];
+const getRandomArrayElement = function (targetArray) {
+  return targetArray[getRandomInt(0, targetArray.length-1)];
 };
 
 //Функция, которая генерирует массив из комментариев
