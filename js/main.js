@@ -1,21 +1,87 @@
-//Функция возвращает случайное целое число из заданного диапазона включительно
-function getRandomInt(min, max) {
-  if (min < 0 || max < 0) {
-    return 'Диапазон чисел должен быть положительным!';
-  }
+//Функция, возвращающая случайное целое положительное число из заданного интервала
+const getRandomInt = function (numberA, numberB) {
+  const rangeStart = Math.ceil(Math.min(Math.abs(numberA), Math.abs(numberB)));
+  const rangeEnd = Math.floor(Math.max(Math.abs(numberA), Math.abs(numberB)));
+  return Math.floor(Math.random() * (rangeEnd - rangeStart + 1)) + rangeStart;
+};
 
-  if (min >= max) {
-    return 'Нижняя граница диапазона должна быть меньше верхней!';
-  }
-
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-getRandomInt(2.4, 5.2);
-
-//Функция для проверки максимальной длины строки
-function checkStringLength (currentString, maxLength) {
+//Функция для проверки длины строки
+const checkStringLength = function (currentString, maxLength) {
   return currentString.length <= maxLength;
-}
-checkStringLength ('Проверка!', 100);
+};
+
+checkStringLength('Проверка!', 100);
+
+//Функция для выбора случайного элемента из массива
+const getRandomArrayElement = function (someArray) {
+  return someArray[getRandomInt(0, someArray.length-1)];
+};
+
+//Функция, которая генерирует массив из комментариев
+const getComments = function (number = getRandomInt(1, 5)) {
+  const NAMES = [
+    'Артем Малютин',
+    'Арнольд Шварценеггер',
+    'Сильвестр Сталоне',
+    'Джонни Дэпп',
+    'Том Круз',
+    'Пендальф Синий',
+    'Ленс Армстронг',
+    'Сосо Павлиашвили',
+    'Валерий Леонтьев',
+    'Саша Барон Коэн'
+  ];
+  const PHRASES = [
+    'Всё отлично!',
+    'В целом всё неплохо. Но не всё.',
+    'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
+    'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
+    'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
+    'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
+  ];
+  const commentsArray = [];
+  for (let i = 0; i < number; i++) {
+    commentsArray[i] = {
+      id: null,
+      avatar: `img/avatar-${getRandomInt(1, 6)}.svg`,
+      message: getRandomArrayElement(PHRASES),
+      name: getRandomArrayElement(NAMES)
+    };
+  }
+  return commentsArray;
+};
+
+//Функция, которая генерирует массив из фотографий
+const getPhotoExpositions = function (number = 25) {
+  const DESCRIPTIONS = [
+    'Любимая фотография.',
+    'Из воспоминаний.',
+    'Фотография на память.',
+    'Я был пьян, когда делал это фото.',
+    'И все-таки, классное получилось фото.',
+    'Ни у кого нет такой фотографии.',
+    'Эту фотку я сделал на Iphone 13 Pro Max.',
+    'Отправь это фото самому близкому тебе человеку.'
+  ];
+  const photoExpositionsArray = [];//Массив для хранения объектов фотографий
+  let idForCommentsCurrent = 1;//Переменная-счетчик, необходимая, чтобы id у комментариев не повторялся
+
+  for (let i = 0; i < number; i++) {
+    const commentsArrayResult = getComments();
+    photoExpositionsArray[i] = {
+      id: i + 1,
+      url: `photos/${i + 1}.jpg`,
+      description: getRandomArrayElement(DESCRIPTIONS),
+      likes: getRandomInt(15, 200),
+      comments: commentsArrayResult
+    };
+    for (let j = 0; j < commentsArrayResult.length; j++) {
+      commentsArrayResult[j].id = idForCommentsCurrent;
+      idForCommentsCurrent++;
+    }
+
+  }
+  return photoExpositionsArray;
+};
+
+getPhotoExpositions();
