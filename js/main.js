@@ -64,14 +64,22 @@ const getPhotoExpositions = function (number = 25) {
     'Отправь это фото самому близкому тебе человеку.'
   ];
   const photoExpositionsArray = [];//Массив для хранения объектов фотографий
+  let idForCommentsCurrent = 1;//Переменная-счетчик, необходимая, чтобы id у комментариев не повторялся
+
   for (let i = 0; i < number; i++) {
+    const commentsArrayResult = getComments();
     photoExpositionsArray[i] = {
       id: i + 1,
       url: `photos/${i + 1}.jpg`,
       description: getRandomArrayElement(DESCRIPTIONS),
       likes: getRandomInt(15, 200),
-      comments: getComments()
+      comments: commentsArrayResult
     };
+    for (let j = 0; j < commentsArrayResult.length; j++) {
+      commentsArrayResult[j].id = idForCommentsCurrent;
+      idForCommentsCurrent++;
+    }
+
   }
   return photoExpositionsArray;
 };
