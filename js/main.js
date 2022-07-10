@@ -1,3 +1,3 @@
-import {getPhotoExpositions} from './data.js';
+import {renderThumbnails} from './thumbnails.js';
 
-getPhotoExpositions();
+renderThumbnails();
