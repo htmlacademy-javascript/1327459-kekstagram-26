@@ -32,7 +32,7 @@ const DESCRIPTIONS = [
 ];
 
 //Функция, которая генерирует массив из комментариев
-const getComments = function (maxCommentsNumber = getRandomInt(1, 5)) {
+function getComments(maxCommentsNumber = getRandomInt(1, 5)) {
   const commentsArray = [];
   for (let i = 0; i < maxCommentsNumber; i++) {
     commentsArray[i] = {
@@ -43,12 +43,12 @@ const getComments = function (maxCommentsNumber = getRandomInt(1, 5)) {
     };
   }
   return commentsArray;
-};
+}
 
 //Функция, которая генерирует массив из фотографий
-const getPhotoExpositions = function (maxPhotosNumber = 25) {
-  const photoExpositionsArray = [];//Массив для хранения объектов фотографий
-  let idForCommentsCurrent = 1;//Переменная-счетчик, необходимая, чтобы id у комментариев не повторялся
+function getPhotoExpositions(maxPhotosNumber = 25) {
+  const photoExpositionsArray = [];
+  let idForCommentCurrent = 1;
   for (let i = 0; i < maxPhotosNumber; i++) {
     const commentsArrayResult = getComments();
     photoExpositionsArray[i] = {
@@ -59,11 +59,15 @@ const getPhotoExpositions = function (maxPhotosNumber = 25) {
       comments: commentsArrayResult
     };
     for (let j = 0; j < commentsArrayResult.length; j++) {
-      commentsArrayResult[j].id = idForCommentsCurrent;
-      idForCommentsCurrent++;
+      commentsArrayResult[j].id = idForCommentCurrent;
+      idForCommentCurrent++;
     }
   }
   return photoExpositionsArray;
-};
+}
 
-export {getPhotoExpositions};
+//Генерируем базу данных из фотографий
+const GENERATED_PHOTOS_DATA = getPhotoExpositions();
+
+//Передаем сгенерированные данные для использования в других модулях
+export {GENERATED_PHOTOS_DATA};

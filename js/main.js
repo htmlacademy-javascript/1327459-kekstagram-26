@@ -1,3 +1,1 @@
-import {renderThumbnails} from './thumbnails.js';
-
-renderThumbnails();
+import './thumbnails.js';

@@ -1,25 +1,27 @@
-import {getPhotoExpositions} from './data.js';
-import {openBigPicture} from './big-picture.js';
+import {GENERATED_PHOTOS_DATA} from './data.js';
+import { openBigPictureWindow } from './big-picture.js';
 
-//Функция по отрисовке фотографий
-const renderThumbnails = function(photosArray = getPhotoExpositions()) {
-  const picturesContainer = document.querySelector('.pictures');
-  const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');//Шаблон фотографии
-  const picturesListFragment = document.createDocumentFragment();
+//Функция по отрисовке миниатюр фотографий
+function renderThumbnails(photosArray) {
+  const thumbnailsContainer = document.querySelector('.pictures');
+  const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
+  const thumbnailsListFragment = document.createDocumentFragment();
 
-  photosArray.forEach((photo) => {
-    const pictureElement = pictureTemplate.cloneNode(true);
-    pictureElement.querySelector('.picture__likes').textContent = photo.likes;
-    pictureElement.querySelector('.picture__comments').textContent = photo.comments.length;
-    pictureElement.querySelector('.picture__img').src = photo.url;
-    pictureElement.addEventListener('click', (evt) => {
-      evt.preventDefault();
-      openBigPicture(photo);
-    });
-    picturesListFragment.append(pictureElement);
+  photosArray.forEach(({likes, comments, url, id}) => {
+    const thumbnailElement = thumbnailTemplate.cloneNode(true);
+    thumbnailElement.querySelector('.picture__likes').textContent = likes;
+    thumbnailElement.querySelector('.picture__comments').textContent = comments.length;
+    thumbnailElement.querySelector('.picture__img').src = url;
+    thumbnailElement.dataset.index = id;
+    thumbnailsListFragment.append(thumbnailElement);
   });
 
-  picturesContainer.append(picturesListFragment);
-};
+  thumbnailsContainer.append(thumbnailsListFragment);
+  //Добавляем обработчик события по клику для открытия модального окна с большой фотографией
+  thumbnailsContainer.addEventListener('click', (evt) => {
+    openBigPictureWindow(evt);
+  });
+}
 
-export {renderThumbnails};
+//Отрисовываем миниатюры фотографий на основе сгенерированных данных
+renderThumbnails(GENERATED_PHOTOS_DATA);
