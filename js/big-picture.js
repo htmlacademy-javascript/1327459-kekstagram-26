@@ -43,8 +43,8 @@ function createBigPictureWindow(photosDataArray, elementDataIndex) {
 
 //Функция открытия окна с большой фотографией
 function openBigPictureWindow(evt) {
-  if (evt.target.nodeName === 'A' || evt.target.closest('a')) {
-    const eventTarget = evt.target.closest('a');
+  const eventTarget = evt.target.closest('a');
+  if (eventTarget) {
     const photoIndex = Number(eventTarget.dataset.index);
 
     //Собираем модальное окно на основе исходных данных

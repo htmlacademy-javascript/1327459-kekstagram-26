@@ -25,6 +25,8 @@ function closeUploadImageOverlay() {
   uploadImageOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onUploadImageOverlayEscKeydown);
+  uploadImageInput.value = '';
+  // uploadImageForm.reset();
 }
 
 //Обработчик события нажатия клавиши ESС при открытом окне загрузки изображения
@@ -34,3 +36,17 @@ function onUploadImageOverlayEscKeydown(evt) {
     closeUploadImageOverlay();
   }
 }
+
+//Предотвращаем закрытие окна клавишей при фокусе на полях ввода
+const hashtagsTextInput = uploadImageForm.querySelector('input[name="hashtags"]');
+const commentTextInput = uploadImageForm.querySelector('textarea[name="description"]');
+commentTextInput.addEventListener('keydown', (evt) => evt.stopPropagation());
+hashtagsTextInput.addEventListener('keydown', (evt) => evt.stopPropagation());
+
+// const pristine = new Pristine(uploadImageForm, {
+//   errorClass: '',
+//   successClass: '',
+//   errorTextParent: '',
+//   errorTextTag: 'span',
+//   errorTextClass: 'form__error'
+// });
