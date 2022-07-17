@@ -1,19 +1,24 @@
-//Функция открытия большого изображения и заполнения данными
-const openBigPicture = function(photo) {
-  const bigPicture = document.querySelector('.big-picture');
-  const bigPictureImage = document.querySelector('.big-picture__img');
-  const closeButton = bigPicture.querySelector('#picture-cancel');
-  const commentsCounter = bigPicture.querySelector('.social__comment-count');
-  const commentsLoaderButton = bigPicture.querySelector('.social__comments-loader');
+import {GENERATED_PHOTOS_DATA} from './data.js';
 
-  bigPictureImage.querySelector('img').src = photo.url;
-  bigPicture.querySelector('.likes-count').textContent = photo.likes;
-  bigPicture.querySelector('.comments-count').textContent = photo.comments.length;
-  bigPicture.querySelector('.social__caption').textContent = photo.description;
+const bigPictureWindow = document.querySelector('.big-picture');
+const bigPictureWindowCloseButton = bigPictureWindow.querySelector('#picture-cancel');
 
-  const commentsList = bigPicture.querySelector('.social__comments');
+//Функция заполнения данными окна с большой фотографией
+function createBigPictureWindow(photosDataArray, elementDataIndex) {
+  //Находим нужный элемент массива из фотографий по совпадающему id
+  const photo = photosDataArray.find((photoElement) => photoElement.id === elementDataIndex);
+
+  //Заполняем модальное окно данными
+  bigPictureWindow.querySelector('.big-picture__img img').src = photo.url;
+  bigPictureWindow.querySelector('.big-picture__img img').alt = 'Случайная фотография';
+  bigPictureWindow.querySelector('.likes-count').textContent = photo.likes;
+  bigPictureWindow.querySelector('.comments-count').textContent = photo.comments.length;
+  bigPictureWindow.querySelector('.social__caption').textContent = photo.description;
+
+  //Создаем комментарии
+  const commentsList = bigPictureWindow.querySelector('.social__comments');
+  const commentsListFragment = document.createDocumentFragment();
   commentsList.innerHTML = '';
-
   photo.comments.forEach((comment) => {
     const commentsItem = document.createElement('li');
     commentsItem.classList.add('social__comment');
@@ -31,25 +36,48 @@ const openBigPicture = function(photo) {
     socialText.textContent = comment.message;
     commentsItem.append(socialText);
 
-    commentsList.append(commentsItem);
+    commentsListFragment.append(commentsItem);
   });
+  commentsList.append(commentsListFragment);
+}
 
-  bigPicture.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-  commentsCounter.classList.add('hidden');
-  commentsLoaderButton.classList.add('hidden');
+//Функция открытия окна с большой фотографией
+function openBigPictureWindow(evt) {
+  const eventTarget = evt.target.closest('a');
+  if (eventTarget) {
+    const photoIndex = Number(eventTarget.dataset.index);
 
-  closeButton.addEventListener('click', () => {
-    bigPicture.classList.add('hidden');
-    document.body.classList.remove('modal-open');
-  });
+    //Собираем модальное окно на основе исходных данных
+    createBigPictureWindow(GENERATED_PHOTOS_DATA, photoIndex);
 
-  document.addEventListener('keydown', (evt) => {
-    if (evt.code === 'Escape') {
-      bigPicture.classList.add('hidden');
-      document.body.classList.remove('modal-open');
-    }
-  });
-};
+    //Показываем модальное окно пользователю
+    bigPictureWindow.classList.remove('hidden');
+    document.body.classList.add('modal-open');
+    bigPictureWindow.querySelector('.social__comment-count').classList.add('hidden');
+    bigPictureWindow.querySelector('.social__comments-loader').classList.add('hidden');
 
-export {openBigPicture};
+    document.addEventListener('keydown', onBigPictureWindowEscKeydown);
+  }
+}
+
+//Добавляем обработчик события на кнопку закрытия окна с большой фотографией
+bigPictureWindowCloseButton.addEventListener('click', () => {
+  closeBigPictureWindow();
+});
+
+//Функция закрытия окна с большой фотографией
+function closeBigPictureWindow() {
+  bigPictureWindow.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onBigPictureWindowEscKeydown);
+}
+
+//Обработчик события нажатия клавиши ESС при открытом окне с большой фотографией
+function onBigPictureWindowEscKeydown(evt) {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    closeBigPictureWindow();
+  }
+}
+
+export {openBigPictureWindow};
