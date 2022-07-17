@@ -1,7 +1,8 @@
+import {checkStringLength} from './util.js';
+
 const uploadImageForm = document.querySelector('#upload-select-image');
 const uploadImageOverlay = uploadImageForm.querySelector('.img-upload__overlay');
 const uploadImageOverlayCloseButton = uploadImageForm.querySelector('#upload-cancel');
-const uploadSubmitButton = uploadImageForm.querySelector('#upload-submit');
 const uploadImageInput = uploadImageForm.querySelector('#upload-file');
 const hashtagsTextInput = uploadImageForm.querySelector('input[name="hashtags"]');
 const commentTextInput = uploadImageForm.querySelector('textarea[name="description"]');
@@ -34,6 +35,7 @@ function openUploadImageOverlay() {
   uploadImageOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onUploadImageOverlayEscKeydown);
+  commentTextInput.removeAttribute('maxlength');
 }
 
 //Функция закрытия окна загрузки изображения
@@ -88,14 +90,16 @@ function validateHashtagsOnRepeat (value) {
 
 pristine.addValidator(hashtagsTextInput, validateHashtagsOnRepeat, '*Хеш-теги не должны повторяться.');
 
-// uploadImageForm.addEventListener('submit', (evt) => {
-//   evt.preventDefault();
-//   const isValid = pristine.validate();
-//   if (!isValid) {
-//     uploadSubmitButton.disabled = true;
-//   } else {
-//     uploadSubmitButton.disabled = false;
-//   }
-// });
+// Функция проверки максимальной длины комментария
+function validateCommentMaxLength(value) {
+  return checkStringLength(value, 140);
+}
 
+pristine.addValidator(commentTextInput, validateCommentMaxLength, '*Длина комментария не должна превышать 140 символов.', 2, true);
 
+uploadImageForm.addEventListener('submit', (evt) => {
+  const isValid = pristine.validate();
+  if (!isValid) {
+    evt.preventDefault();
+  }
+});
