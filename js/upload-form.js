@@ -34,28 +34,30 @@ function openUploadImageOverlay() {
   commentTextInput.removeAttribute('maxlength');
 }
 
+// Функция сброса поля ввода и сообщений об ошибках
+function resetInputValueAndErrorMessages(targetInput) {
+  targetInput.value = '';
+  pristine.reset();
+}
+
 //Функция закрытия окна загрузки изображения
 function closeUploadImageOverlay() {
   uploadImageOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onUploadImageOverlayEscKeydown);
   uploadImageOverlayCloseButton.removeEventListener('click', closeUploadImageOverlay);
-  uploadImageInput.value = '';
-  //Сбрасываем сообщения об ошибках
-  pristine.reset();
+  resetInputValueAndErrorMessages(uploadImageInput);
 }
 
 //Обработчик события нажатия клавиши ESС при открытом окне загрузки изображения
 function onUploadImageOverlayEscKeydown(evt) {
   if (evt.key === 'Escape') {
-    evt.preventDefault();
-    closeUploadImageOverlay();
+    if (!Array.from(evt.target.classList).some((className) => ['text__hashtags', 'text__description'].includes(className))) {
+      evt.preventDefault();
+      closeUploadImageOverlay();
+    }
   }
 }
-
-//Предотвращаем закрытие окна клавишей при фокусе на полях ввода
-commentTextInput.addEventListener('keydown', (evt) => evt.stopPropagation());
-hashtagsTextInput.addEventListener('keydown', (evt) => evt.stopPropagation());
 
 //Реализуем валидацию полей ввода:
 
