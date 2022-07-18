@@ -2,7 +2,7 @@ import {GENERATED_PHOTOS_DATA} from './data.js';
 
 const MAX_NUMBER_OF_COMMENTS_TO_SHOW = 5;
 
-//Массив c текущими комментариями вынесен в глобальную область чтобы сделать его доступным для разных функций
+//Массив для хранения комментариев текущей фотографии
 let currentPhotoComments = [];
 
 const bigPictureWindow = document.querySelector('.big-picture');
