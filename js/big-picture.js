@@ -1,5 +1,6 @@
 import {GENERATED_PHOTOS_DATA} from './data.js';
 
+const MAX_NUMBER_OF_COMMENTS_TO_SHOW = 5;
 const bigPictureWindow = document.querySelector('.big-picture');
 const bigPictureWindowCloseButton = bigPictureWindow.querySelector('#picture-cancel');
 
@@ -12,16 +13,20 @@ function createBigPictureWindow(photosDataArray, elementDataIndex) {
   bigPictureWindow.querySelector('.big-picture__img img').src = photo.url;
   bigPictureWindow.querySelector('.big-picture__img img').alt = 'Случайная фотография';
   bigPictureWindow.querySelector('.likes-count').textContent = photo.likes;
-  bigPictureWindow.querySelector('.comments-count').textContent = photo.comments.length;
   bigPictureWindow.querySelector('.social__caption').textContent = photo.description;
 
   //Создаем комментарии
   const commentsList = bigPictureWindow.querySelector('.social__comments');
   const commentsListFragment = document.createDocumentFragment();
   commentsList.innerHTML = '';
+  let commentsCounter = 0;
   photo.comments.forEach((comment) => {
+    commentsCounter = commentsCounter + 1;
     const commentsItem = document.createElement('li');
     commentsItem.classList.add('social__comment');
+    if (commentsCounter > MAX_NUMBER_OF_COMMENTS_TO_SHOW) {
+      commentsItem.classList.add('hidden');
+    }
 
     const socialImage = document.createElement('img');
     socialImage.classList.add('social__picture');
@@ -38,6 +43,16 @@ function createBigPictureWindow(photosDataArray, elementDataIndex) {
 
     commentsListFragment.append(commentsItem);
   });
+
+  //Передаем кол-во показанных комментариев и общее кол-во комментариев
+  let shownCommentsNumber;
+  if (photo.comments.length < MAX_NUMBER_OF_COMMENTS_TO_SHOW) {
+    shownCommentsNumber = photo.comments.length;
+  } else {
+    shownCommentsNumber = MAX_NUMBER_OF_COMMENTS_TO_SHOW;
+  }
+  bigPictureWindow.querySelector('.social__comment-count').textContent = `${shownCommentsNumber} из ${photo.comments.length} комментариев`;
+
   commentsList.append(commentsListFragment);
 }
 
