@@ -1,32 +1,22 @@
 import {GENERATED_PHOTOS_DATA} from './data.js';
 
 const MAX_NUMBER_OF_COMMENTS_TO_SHOW = 5;
+
+//Массив c текущими комментариями вынесен в глобальную область чтобы сделать его доступным для разных функций
+let currentPhotoComments = [];
+
 const bigPictureWindow = document.querySelector('.big-picture');
 const bigPictureWindowCloseButton = bigPictureWindow.querySelector('#picture-cancel');
+const commentsList = bigPictureWindow.querySelector('.social__comments');
+const commentsCount = bigPictureWindow.querySelector('.social__comment-count');
+const showMoreCommentsButton = bigPictureWindow.querySelector('.social__comments-loader');
 
-//Функция заполнения данными окна с большой фотографией
-function createBigPictureWindow(photosDataArray, elementDataIndex) {
-  //Находим нужный элемент массива из фотографий по совпадающему id
-  const photo = photosDataArray.find((photoElement) => photoElement.id === elementDataIndex);
-
-  //Заполняем модальное окно данными
-  bigPictureWindow.querySelector('.big-picture__img img').src = photo.url;
-  bigPictureWindow.querySelector('.big-picture__img img').alt = 'Случайная фотография';
-  bigPictureWindow.querySelector('.likes-count').textContent = photo.likes;
-  bigPictureWindow.querySelector('.social__caption').textContent = photo.description;
-
-  //Создаем комментарии
-  const commentsList = bigPictureWindow.querySelector('.social__comments');
-  const commentsListFragment = document.createDocumentFragment();
-  commentsList.innerHTML = '';
-  let commentsCounter = 0;
-  photo.comments.forEach((comment) => {
-    commentsCounter = commentsCounter + 1;
+//Функция рендера комментиариев
+function renderComments(comments) {
+  const commentsFragment = document.createDocumentFragment();
+  comments.forEach((comment) => {
     const commentsItem = document.createElement('li');
     commentsItem.classList.add('social__comment');
-    if (commentsCounter > MAX_NUMBER_OF_COMMENTS_TO_SHOW) {
-      commentsItem.classList.add('hidden');
-    }
 
     const socialImage = document.createElement('img');
     socialImage.classList.add('social__picture');
@@ -41,19 +31,53 @@ function createBigPictureWindow(photosDataArray, elementDataIndex) {
     socialText.textContent = comment.message;
     commentsItem.append(socialText);
 
-    commentsListFragment.append(commentsItem);
+    commentsFragment.append(commentsItem);
   });
 
-  //Передаем кол-во показанных комментариев и общее кол-во комментариев
-  let shownCommentsNumber;
-  if (photo.comments.length < MAX_NUMBER_OF_COMMENTS_TO_SHOW) {
-    shownCommentsNumber = photo.comments.length;
-  } else {
-    shownCommentsNumber = MAX_NUMBER_OF_COMMENTS_TO_SHOW;
-  }
-  bigPictureWindow.querySelector('.social__comment-count').textContent = `${shownCommentsNumber} из ${photo.comments.length} комментариев`;
+  return commentsFragment;
+}
 
-  commentsList.append(commentsListFragment);
+//Функция загрузки первых комментариев
+function showFirstComments(comments) {
+  const shownComments = comments.slice(0, MAX_NUMBER_OF_COMMENTS_TO_SHOW);
+  commentsCount.firstChild.textContent = `${shownComments.length} из  `;
+  commentsList.append(renderComments(shownComments));
+
+  if (shownComments.length === comments.length) {
+    showMoreCommentsButton.classList.add('hidden');
+  } else {
+    showMoreCommentsButton.classList.remove('hidden');
+  }
+}
+
+//Функция показа дополнительных комментиариев
+function showMoreComments() {
+  const addComments = currentPhotoComments.slice(commentsList.children.length, commentsList.children.length + MAX_NUMBER_OF_COMMENTS_TO_SHOW);
+  commentsList.append(renderComments(addComments));
+
+  if (currentPhotoComments.length === commentsList.children.length) {
+    showMoreCommentsButton.classList.add('hidden');
+  }
+
+  commentsCount.firstChild.textContent = `${commentsList.children.length} из  `;
+}
+
+//Функция заполнения данными окна с большой фотографией
+function createBigPictureWindow(photosDataArray, elementDataIndex) {
+  //Находим нужный элемент массива из фотографий по совпадающему id
+  const photo = photosDataArray.find((photoElement) => photoElement.id === elementDataIndex);
+
+  //Заполняем модальное окно данными
+  bigPictureWindow.querySelector('.big-picture__img img').src = photo.url;
+  bigPictureWindow.querySelector('.big-picture__img img').alt = 'Случайная фотография';
+  bigPictureWindow.querySelector('.likes-count').textContent = photo.likes;
+  bigPictureWindow.querySelector('.social__caption').textContent = photo.description;
+  bigPictureWindow.querySelector('.comments-count').textContent = photo.comments.length;
+
+  commentsList.innerHTML = '';
+  currentPhotoComments = photo.comments;
+
+  showFirstComments(currentPhotoComments);
 }
 
 //Функция открытия окна с большой фотографией
@@ -72,6 +96,7 @@ function openBigPictureWindow(evt) {
     //Добавляем обработчики событий на модальное окно
     document.addEventListener('keydown', onBigPictureWindowEscKeydown);
     bigPictureWindowCloseButton.addEventListener('click', closeBigPictureWindow);
+    showMoreCommentsButton.addEventListener('click', showMoreComments);
   }
 }
 
@@ -81,6 +106,7 @@ function closeBigPictureWindow() {
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onBigPictureWindowEscKeydown);
   bigPictureWindowCloseButton.removeEventListener('click', closeBigPictureWindow);
+  showMoreCommentsButton.removeEventListener('click', showMoreComments);
 }
 
 //Обработчик события нажатия клавиши ESС при открытом окне с большой фотографией
