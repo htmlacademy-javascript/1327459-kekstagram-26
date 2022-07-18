@@ -32,7 +32,7 @@ const DESCRIPTIONS = [
 ];
 
 //Функция, которая генерирует массив из комментариев
-function getComments(maxCommentsNumber = getRandomInt(1, 5)) {
+function getComments(maxCommentsNumber = getRandomInt(1, 15)) {
   const commentsArray = [];
   for (let i = 0; i < maxCommentsNumber; i++) {
     commentsArray[i] = {
