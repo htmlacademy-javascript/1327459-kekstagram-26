@@ -53,23 +53,19 @@ function openBigPictureWindow(evt) {
     //Показываем модальное окно пользователю
     bigPictureWindow.classList.remove('hidden');
     document.body.classList.add('modal-open');
-    bigPictureWindow.querySelector('.social__comment-count').classList.add('hidden');
-    bigPictureWindow.querySelector('.social__comments-loader').classList.add('hidden');
 
+    //Добавляем обработчики событий на модальное окно
     document.addEventListener('keydown', onBigPictureWindowEscKeydown);
+    bigPictureWindowCloseButton.addEventListener('click', closeBigPictureWindow);
   }
 }
-
-//Добавляем обработчик события на кнопку закрытия окна с большой фотографией
-bigPictureWindowCloseButton.addEventListener('click', () => {
-  closeBigPictureWindow();
-});
 
 //Функция закрытия окна с большой фотографией
 function closeBigPictureWindow() {
   bigPictureWindow.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onBigPictureWindowEscKeydown);
+  bigPictureWindowCloseButton.removeEventListener('click', closeBigPictureWindow);
 }
 
 //Обработчик события нажатия клавиши ESС при открытом окне с большой фотографией

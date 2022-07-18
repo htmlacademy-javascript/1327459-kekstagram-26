@@ -25,16 +25,12 @@ uploadImageInput.addEventListener('change', () => {
   openUploadImageOverlay();
 });
 
-//Добавляем обработчик события на кнопку закрытия окна загрузки изображения
-uploadImageOverlayCloseButton.addEventListener('click', () => {
-  closeUploadImageOverlay();
-});
-
 //Функция открытия окна загрузки изображения
 function openUploadImageOverlay() {
   uploadImageOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onUploadImageOverlayEscKeydown);
+  uploadImageOverlayCloseButton.addEventListener('click', closeUploadImageOverlay);
   commentTextInput.removeAttribute('maxlength');
 }
 
@@ -43,6 +39,7 @@ function closeUploadImageOverlay() {
   uploadImageOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onUploadImageOverlayEscKeydown);
+  uploadImageOverlayCloseButton.removeEventListener('click', closeUploadImageOverlay);
   uploadImageInput.value = '';
   //Сбрасываем сообщения об ошибках
   pristine.reset();
