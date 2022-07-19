@@ -1,4 +1,5 @@
 import {checkStringLength} from './util.js';
+import {reducePictureScale, increasePictureScale} from './picture-scale.js';
 
 const uploadImageForm = document.querySelector('#upload-select-image');
 const uploadImageOverlay = uploadImageForm.querySelector('.img-upload__overlay');
@@ -6,6 +7,9 @@ const uploadImageOverlayCloseButton = uploadImageForm.querySelector('#upload-can
 const uploadImageInput = uploadImageForm.querySelector('#upload-file');
 const hashtagsTextInput = uploadImageForm.querySelector('input[name="hashtags"]');
 const commentTextInput = uploadImageForm.querySelector('textarea[name="description"]');
+
+const smallerScaleButton = document.querySelector('.scale__control--smaller');
+const biggerScaleButton = document.querySelector('.scale__control--bigger');
 
 const pristine = new Pristine(uploadImageForm, {
   // class of the parent element where the error/success class is added
@@ -32,6 +36,8 @@ function openUploadImageOverlay() {
   document.addEventListener('keydown', onUploadImageOverlayEscKeydown);
   uploadImageOverlayCloseButton.addEventListener('click', closeUploadImageOverlay);
   commentTextInput.removeAttribute('maxlength');
+  smallerScaleButton.addEventListener('click', reducePictureScale);
+  biggerScaleButton.addEventListener('click', increasePictureScale);
 }
 
 // Функция сброса поля ввода и сообщений об ошибках
@@ -47,6 +53,8 @@ function closeUploadImageOverlay() {
   document.removeEventListener('keydown', onUploadImageOverlayEscKeydown);
   uploadImageOverlayCloseButton.removeEventListener('click', closeUploadImageOverlay);
   resetInputValueAndErrorMessages(uploadImageInput);
+  smallerScaleButton.removeEventListener('click', reducePictureScale);
+  biggerScaleButton.removeEventListener('click', increasePictureScale);
 }
 
 //Обработчик события нажатия клавиши ESС при открытом окне загрузки изображения
@@ -58,8 +66,6 @@ function onUploadImageOverlayEscKeydown(evt) {
     }
   }
 }
-
-//Реализуем валидацию полей ввода:
 
 //Функция проверки хеш-тега на символы
 function checkHashtagOnSymbols(currentValue) {
