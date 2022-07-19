@@ -1,5 +1,5 @@
 import {checkStringLength} from './util.js';
-import {reducePictureScale, increasePictureScale} from './picture-scale.js';
+import {reducePictureScale, increasePictureScale, resetPictureScale} from './picture-scale.js';
 
 const uploadImageForm = document.querySelector('#upload-select-image');
 const uploadImageOverlay = uploadImageForm.querySelector('.img-upload__overlay');
@@ -55,6 +55,7 @@ function closeUploadImageOverlay() {
   resetInputValueAndErrorMessages(uploadImageInput);
   smallerScaleButton.removeEventListener('click', reducePictureScale);
   biggerScaleButton.removeEventListener('click', increasePictureScale);
+  resetPictureScale();
 }
 
 //Обработчик события нажатия клавиши ESС при открытом окне загрузки изображения

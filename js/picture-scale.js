@@ -30,4 +30,9 @@ function increasePictureScale() {
   }
 }
 
-export {reducePictureScale, increasePictureScale};
+//Функция сброса масштабирования
+function resetPictureScale() {
+  picture.style.transform = '';
+}
+
+export {reducePictureScale, increasePictureScale, resetPictureScale};
