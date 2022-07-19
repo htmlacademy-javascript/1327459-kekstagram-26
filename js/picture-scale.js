@@ -15,7 +15,7 @@ function changePictureScale() {
 //Функция уменьшения масштаба
 function reducePictureScale() {
   const scaleValue = parseFloat(pictureScaleInput.value);
-  if (!scaleValue === MIN_SCALE) {
+  if (scaleValue !== MIN_SCALE) {
     pictureScaleInput.value = `${scaleValue - STEP}%`;
     changePictureScale();
   }
@@ -24,7 +24,7 @@ function reducePictureScale() {
 //Функция увеличения масштаба
 function increasePictureScale() {
   const scaleValue = parseFloat(pictureScaleInput.value);
-  if (!scaleValue === MAX_SCALE) {
+  if (scaleValue !== MAX_SCALE) {
     pictureScaleInput.value = `${scaleValue + STEP}%`;
     changePictureScale();
   }
