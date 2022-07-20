@@ -1408,3 +1408,19 @@ main {
 .hidden {
   display: none;
 }
+
+/* Стили для сообщений при валидации полей формы */
+.has-success .text__description,
+.has-success .text__hashtags {
+  outline-color: #07ca00;
+}
+
+.has-danger .text__description,
+.has-danger .text__hashtags {
+  outline-color: #e90000;
+}
+
+.has-danger .text-help {
+  text-transform: none;
+  color: #e90000;
+}
