@@ -1,16 +1,18 @@
 import {checkStringLength} from './util.js';
 import {reducePictureScale, increasePictureScale, resetPictureScale} from './picture-scale.js';
-import { resetPictureEffects, resetSliderSettings } from './picture-effects.js';
+import { resetPictureEffects, resetSliderSettings, onPictureEffectsControlChange } from './picture-effects.js';
 
 const uploadImageForm = document.querySelector('#upload-select-image');
 const uploadImageOverlay = uploadImageForm.querySelector('.img-upload__overlay');
 const uploadImageOverlayCloseButton = uploadImageForm.querySelector('#upload-cancel');
-const uploadImageInput = uploadImageForm.querySelector('#upload-file');
+const uploadImageFileInput = uploadImageForm.querySelector('#upload-file');
 const hashtagsTextInput = uploadImageForm.querySelector('input[name="hashtags"]');
 const commentTextInput = uploadImageForm.querySelector('textarea[name="description"]');
 
 const smallerScaleButton = document.querySelector('.scale__control--smaller');
 const biggerScaleButton = document.querySelector('.scale__control--bigger');
+
+const effectsControlList = document.querySelector('.effects__list');
 
 const pristine = new Pristine(uploadImageForm, {
   // class of the parent element where the error/success class is added
@@ -26,9 +28,7 @@ const pristine = new Pristine(uploadImageForm, {
 });
 
 //Добавляем обработчик события выбора изображения для загрузки
-uploadImageInput.addEventListener('change', () => {
-  openUploadImageOverlay();
-});
+uploadImageFileInput.addEventListener('change', openUploadImageOverlay);
 
 //Функция открытия окна загрузки изображения
 function openUploadImageOverlay() {
@@ -39,6 +39,7 @@ function openUploadImageOverlay() {
   commentTextInput.removeAttribute('maxlength');
   smallerScaleButton.addEventListener('click', reducePictureScale);
   biggerScaleButton.addEventListener('click', increasePictureScale);
+  effectsControlList.addEventListener('change', onPictureEffectsControlChange);
   resetSliderSettings();
 }
 
@@ -54,9 +55,10 @@ function closeUploadImageOverlay() {
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onUploadImageOverlayEscKeydown);
   uploadImageOverlayCloseButton.removeEventListener('click', closeUploadImageOverlay);
-  resetInputValueAndErrorMessages(uploadImageInput);
   smallerScaleButton.removeEventListener('click', reducePictureScale);
   biggerScaleButton.removeEventListener('click', increasePictureScale);
+  effectsControlList.removeEventListener('change', onPictureEffectsControlChange);
+  resetInputValueAndErrorMessages(uploadImageFileInput);
   resetPictureScale();
   resetPictureEffects();
 }

@@ -1,5 +1,3 @@
-const pictureEffectsControl = document.querySelector('.img-upload__effects');
-const effectsControlList = pictureEffectsControl.querySelector('.effects__list');
 const picture = document.querySelector('.img-upload__preview img');
 const effectLevelSlider = document.querySelector('.effect-level__slider');
 const effectLevelInput = document.querySelector('.effect-level__value');
@@ -86,10 +84,10 @@ function resetPictureEffects() {
 //Функция сброса параметров слайдера
 function resetSliderSettings() {
   effectLevelSlider.style.display = 'none';
-  updateSliderSettings(effectsDataList.none.settings);
 }
 
-effectsControlList.addEventListener('change', (evt) => {
+//Обработчик события изменения текущего фильтра
+function onPictureEffectsControlChange(evt) {
   if (evt.target.closest('input[type="radio"].effects__radio')) {
     const currentKey = effectsDataList[evt.target.value];
 
@@ -103,6 +101,6 @@ effectsControlList.addEventListener('change', (evt) => {
     currentCssFilterPropertyUnit = currentKey.unit;
     picture.style.filter = '';
   }
-});
+}
 
-export {resetPictureEffects, resetSliderSettings};
+export {resetPictureEffects, resetSliderSettings, onPictureEffectsControlChange};
