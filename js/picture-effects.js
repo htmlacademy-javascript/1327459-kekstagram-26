@@ -92,7 +92,6 @@ function onPictureEffectsControlChange(evt) {
     const currentKey = effectsDataList[evt.target.value];
 
     applyClass(currentKey.class);
-    updateSliderSettings(currentKey.settings);
 
     const currentVisibility = currentKey.display;
     effectLevelSlider.style.display = currentVisibility;
@@ -100,6 +99,8 @@ function onPictureEffectsControlChange(evt) {
     currentCssFilterProperty = currentKey.filter;
     currentCssFilterPropertyUnit = currentKey.unit;
     picture.style.filter = '';
+
+    updateSliderSettings(currentKey.settings);
   }
 }
 
