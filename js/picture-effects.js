@@ -21,35 +21,35 @@ const effectsClassList = {
   },
   chrome: {
     class: 'effects__preview--chrome',
-    settings: {range: {min: 0, max: 1}, start: 0, step: 0.1, connect: 'lower'},
+    settings: {range: {min: 0, max: 1}, start: 1, step: 0.1, connect: 'lower'},
     filter: 'grayscale',
     unit: '',
     display: 'block'
   },
   sepia: {
     class: 'effects__preview--sepia',
-    settings: {range: {min: 0, max: 1}, start: 0, step: 0.1, connect: 'lower'},
+    settings: {range: {min: 0, max: 1}, start: 1, step: 0.1, connect: 'lower'},
     filter: 'sepia',
     unit: '',
     display: 'block'
   },
   marvin: {
     class: 'effects__preview--marvin',
-    settings: {range: {min: 0, max: 100}, start: 0, step: 1, connect: 'lower'},
+    settings: {range: {min: 0, max: 100}, start: 100, step: 1, connect: 'lower'},
     filter: 'invert',
     unit: '%',
     display: 'block'
   },
   phobos: {
     class: 'effects__preview--phobos',
-    settings: {range: {min: 0, max: 3}, start: 0, step: 0.1, connect: 'lower'},
+    settings: {range: {min: 0, max: 3}, start: 3, step: 0.1, connect: 'lower'},
     filter: 'blur',
     unit: 'px',
     display: 'block'
   },
   heat: {
     class: 'effects__preview--heat',
-    settings: {range: {min: 1, max: 3}, start: 0, step: 0.1, connect: 'lower'},
+    settings: {range: {min: 1, max: 3}, start: 3, step: 0.1, connect: 'lower'},
     filter: 'brightness',
     unit: '',
     display: 'block'
@@ -95,5 +95,6 @@ effectsControlList.addEventListener('change', (evt) => {
 
     currentCssFilterProperty = effectsClassList[evt.target.value].filter;
     currentCssFilterPropertyUnit = effectsClassList[evt.target.value].unit;
+    picture.style = '';
   }
 });
