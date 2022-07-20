@@ -6,7 +6,7 @@ const effectLevelInput = document.querySelector('.effect-level__value');
 let currentCssFilterProperty = '';
 let currentCssFilterPropertyUnit = '';
 
-const effectsClassList = {
+const effectsDataList = {
   none: {
     class: 'effects__preview--none',
     settings: {range: {min: 0, max: 1}, start: 0, step: 0.1, connect: 'lower'},
@@ -67,7 +67,7 @@ effectLevelSlider.noUiSlider.on('update', () => {
 });
 
 //Функция применения фильтра к текущей фотографии
-function applyEffect(effectClass) {
+function applyClass(effectClass) {
   picture.className = '';
   picture.classList.add(effectClass);
 }
@@ -86,22 +86,21 @@ function resetPictureEffects() {
 //Функция сброса параметров слайдера
 function resetSliderSettings() {
   effectLevelSlider.style.display = 'none';
-  updateSliderSettings(effectsClassList.none.settings);
+  updateSliderSettings(effectsDataList.none.settings);
 }
 
 effectsControlList.addEventListener('change', (evt) => {
   if (evt.target.closest('input[type="radio"].effects__radio')) {
-    const currentEffectClass = effectsClassList[evt.target.value].class;
-    applyEffect(currentEffectClass);
+    const currentKey = effectsDataList[evt.target.value];
 
-    const currentSettings = effectsClassList[evt.target.value].settings;
-    updateSliderSettings(currentSettings);
+    applyClass(currentKey.class);
+    updateSliderSettings(currentKey.settings);
 
-    const currentVisibility = effectsClassList[evt.target.value].display;
+    const currentVisibility = currentKey.display;
     effectLevelSlider.style.display = currentVisibility;
 
-    currentCssFilterProperty = effectsClassList[evt.target.value].filter;
-    currentCssFilterPropertyUnit = effectsClassList[evt.target.value].unit;
+    currentCssFilterProperty = currentKey.filter;
+    currentCssFilterPropertyUnit = currentKey.unit;
     picture.style.filter = '';
   }
 });
