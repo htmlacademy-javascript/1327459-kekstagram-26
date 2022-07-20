@@ -1,15 +1,10 @@
 const pictureEffectsControl = document.querySelector('.img-upload__effects');
 const effectsControlList = pictureEffectsControl.querySelector('.effects__list');
-// const effectsControlItem = pictureEffectsControl.querySelector('.effects__item');
-// const effectControlInput = pictureEffectsControl.querySelector('input[type="radio"].effects__radio');
 const picture = document.querySelector('.img-upload__preview img');
 const effectLevelSlider = document.querySelector('.effect-level__slider');
 const effectLevelInput = document.querySelector('.effect-level__value');
 let currentCssFilterProperty = '';
 let currentCssFilterPropertyUnit = '';
-
-effectLevelInput.style.display = 'block';
-effectLevelInput.style.color = 'black';
 
 const effectsClassList = {
   none: {
@@ -82,6 +77,18 @@ function updateSliderSettings(settings) {
   effectLevelSlider.noUiSlider.updateOptions(settings);
 }
 
+//Функция сброса эффектов картинки
+function resetPictureEffects() {
+  picture.classList = '';
+  picture.style.filter = '';
+}
+
+//Функция сброса параметров слайдера
+function resetSliderSettings() {
+  effectLevelSlider.style.display = 'none';
+  updateSliderSettings(effectsClassList.none.settings);
+}
+
 effectsControlList.addEventListener('change', (evt) => {
   if (evt.target.closest('input[type="radio"].effects__radio')) {
     const currentEffectClass = effectsClassList[evt.target.value].class;
@@ -95,6 +102,8 @@ effectsControlList.addEventListener('change', (evt) => {
 
     currentCssFilterProperty = effectsClassList[evt.target.value].filter;
     currentCssFilterPropertyUnit = effectsClassList[evt.target.value].unit;
-    picture.style = '';
+    picture.style.filter = '';
   }
 });
+
+export {resetPictureEffects, resetSliderSettings};

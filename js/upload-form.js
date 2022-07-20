@@ -1,5 +1,6 @@
 import {checkStringLength} from './util.js';
 import {reducePictureScale, increasePictureScale, resetPictureScale} from './picture-scale.js';
+import { resetPictureEffects, resetSliderSettings } from './picture-effects.js';
 
 const uploadImageForm = document.querySelector('#upload-select-image');
 const uploadImageOverlay = uploadImageForm.querySelector('.img-upload__overlay');
@@ -38,6 +39,7 @@ function openUploadImageOverlay() {
   commentTextInput.removeAttribute('maxlength');
   smallerScaleButton.addEventListener('click', reducePictureScale);
   biggerScaleButton.addEventListener('click', increasePictureScale);
+  resetSliderSettings();
 }
 
 // Функция сброса поля ввода и сообщений об ошибках
@@ -56,6 +58,7 @@ function closeUploadImageOverlay() {
   smallerScaleButton.removeEventListener('click', reducePictureScale);
   biggerScaleButton.removeEventListener('click', increasePictureScale);
   resetPictureScale();
+  resetPictureEffects();
 }
 
 //Обработчик события нажатия клавиши ESС при открытом окне загрузки изображения
