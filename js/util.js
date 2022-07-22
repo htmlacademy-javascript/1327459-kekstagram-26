@@ -56,6 +56,7 @@ function showSuccessMessage() {
 function showErrorMessage() {
   const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
   const errorMessage = errorMessageTemplate.cloneNode(true);
+  errorMessage.style.zIndex = 100;
   document.body.append(errorMessage);
   errorMessage.querySelector('.error__button').addEventListener('click', () => {
     errorMessage.remove();

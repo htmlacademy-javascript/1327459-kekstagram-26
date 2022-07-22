@@ -46,12 +46,6 @@ function openUploadImageOverlay() {
   resetSliderSettings();
 }
 
-// Функция сброса поля ввода и сообщений об ошибках
-function resetInputValueAndErrorMessages(targetInput) {
-  targetInput.value = '';
-  pristine.reset();
-}
-
 //Функция закрытия окна загрузки изображения
 function closeUploadImageOverlay() {
   uploadImageOverlay.classList.add('hidden');
@@ -61,7 +55,8 @@ function closeUploadImageOverlay() {
   smallerScaleButton.removeEventListener('click', reducePictureScale);
   biggerScaleButton.removeEventListener('click', increasePictureScale);
   effectsControlList.removeEventListener('change', onPictureEffectsControlChange);
-  resetInputValueAndErrorMessages(uploadImageFileInput);
+  pristine.reset();
+  uploadImageForm.reset();
   resetPictureScale();
   resetPictureEffects();
 }
