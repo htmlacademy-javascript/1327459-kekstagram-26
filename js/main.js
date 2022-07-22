@@ -1,5 +1,5 @@
 import './picture-effects.js';
-import './upload-form.js';
+import {setUploadImageFormSubmit, closeUploadImageOverlay} from './upload-form.js';
 import { getData } from './api.js';
 import { renderThumbnails } from './thumbnails.js';
 import {openBigPictureWindow} from './big-picture.js';
@@ -13,3 +13,5 @@ getData((photosData) => {
     openBigPictureWindow(evt, photosData);
   });
 }, showAlert);
+
+setUploadImageFormSubmit(closeUploadImageOverlay);

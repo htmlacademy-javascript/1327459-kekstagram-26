@@ -1,6 +1,7 @@
-import {checkStringLength} from './util.js';
+import {checkStringLength, showSuccessMessage, showErrorMessage} from './util.js';
 import {reducePictureScale, increasePictureScale, resetPictureScale} from './picture-scale.js';
 import { resetPictureEffects, resetSliderSettings, onPictureEffectsControlChange } from './picture-effects.js';
+import {sendData} from './api.js';
 
 const uploadImageForm = document.querySelector('#upload-select-image');
 const uploadImageOverlay = uploadImageForm.querySelector('.img-upload__overlay');
@@ -8,6 +9,8 @@ const uploadImageOverlayCloseButton = uploadImageForm.querySelector('#upload-can
 const uploadImageFileInput = uploadImageForm.querySelector('#upload-file');
 const hashtagsTextInput = uploadImageForm.querySelector('input[name="hashtags"]');
 const commentTextInput = uploadImageForm.querySelector('textarea[name="description"]');
+
+const uploadImageFormSubmitButton = uploadImageForm.querySelector('#upload-submit');
 
 const smallerScaleButton = document.querySelector('.scale__control--smaller');
 const biggerScaleButton = document.querySelector('.scale__control--bigger');
@@ -108,9 +111,26 @@ function validateCommentMaxLength(value) {
 
 pristine.addValidator(commentTextInput, validateCommentMaxLength, '*Длина комментария не должна превышать 140 символов.', 2, true);
 
-uploadImageForm.addEventListener('submit', (evt) => {
-  const isValid = pristine.validate();
-  if (!isValid) {
+function setUploadImageFormSubmit(onSuccess) {
+  uploadImageForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-  }
-});
+    const isValid = pristine.validate();
+    if (isValid) {
+      uploadImageFormSubmitButton.disabled = true;
+      sendData(
+        () => {
+          onSuccess();
+          showSuccessMessage();
+          uploadImageFormSubmitButton.disabled = false;
+        },
+        () => {
+          showErrorMessage();
+          uploadImageFormSubmitButton.disabled = false;
+        },
+        new FormData(evt.target)
+      );
+    }
+  });
+}
+
+export {setUploadImageFormSubmit, closeUploadImageOverlay};
