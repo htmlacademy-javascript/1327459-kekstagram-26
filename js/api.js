@@ -1,3 +1,4 @@
+//Функция получения данных с сервера
 function getData(onSuccess, onFail) {
   fetch('https://26.javascript.pages.academy/kekstagram/data')
     .then((response) => {
@@ -11,5 +12,24 @@ function getData(onSuccess, onFail) {
     })
     .catch((err) => onFail(err.message));
 }
+
+//Функция отправки данных на сервер
+// function sendData(onSuccess, onFail, data) {
+//   fetch('https://26.javascript.pages.academy/kekstagram',
+//   {
+//     method: 'POST',
+//     body
+//   })
+//   .then((response) => {
+//     if (response.ok) {
+//       //Показываем сообщение об успешной отправке
+//     } else {
+//       //Показываем сообщение об ошибке
+//     }
+//   })
+//   .catch(() => {
+//     onFail('Не удалось отправить форму. Попробуйте ещё раз');
+//   })
+// }
 
 export {getData};

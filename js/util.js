@@ -26,12 +26,13 @@ function showAlert(message) {
   alertContainer.style.left = '0';
   alertContainer.style.top = '0';
   alertContainer.style.right = '0';
-  alertContainer.style.padding = '10px 3px';
-  alertContainer.style.fontSize = '30px';
+  alertContainer.style.padding = '20px 10px';
+  alertContainer.style.fontFamily = '"Open Sans", "Arial", sans-serif';
+  alertContainer.style.fontSize = '32px';
+  alertContainer.style.fontWeight = 'bold';
   alertContainer.style.textAlign = 'center';
-  alertContainer.style.textTransform = 'none';
   alertContainer.style.backgroundColor = 'red';
-
+  alertContainer.style.opacity = '0.5';
   alertContainer.textContent = message;
 
   document.body.append(alertContainer);
@@ -41,4 +42,24 @@ function showAlert(message) {
   }, ALERT_SHOW_TIME);
 }
 
-export {getRandomInt, checkStringLength, getRandomArrayElement, showAlert};
+//Функция показа успешного сообщения
+function showSuccessMessage() {
+  const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
+  const successMessage = successMessageTemplate.cloneNode(true);
+  document.body.append(successMessage);
+  successMessage.querySelector('.success__button').addEventListener('click', () => {
+    successMessage.remove();
+  });
+}
+
+//Функция показа сообщения об ошибке
+function showErrorMessage() {
+  const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
+  const errorMessage = errorMessageTemplate.cloneNode(true);
+  document.body.append(errorMessage);
+  errorMessage.querySelector('.error__button').addEventListener('click', () => {
+    errorMessage.remove();
+  });
+}
+
+export {getRandomInt, checkStringLength, getRandomArrayElement, showAlert, showSuccessMessage, showErrorMessage};
