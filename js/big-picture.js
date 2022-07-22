@@ -1,5 +1,3 @@
-import {GENERATED_PHOTOS_DATA} from './data.js';
-
 const MAX_NUMBER_OF_COMMENTS_TO_SHOW = 5;
 
 //Массив для хранения комментариев текущей фотографии
@@ -81,13 +79,13 @@ function createBigPictureWindow(photosDataArray, elementDataIndex) {
 }
 
 //Функция открытия окна с большой фотографией
-function openBigPictureWindow(evt) {
+function openBigPictureWindow(evt, photos) {
   const eventTarget = evt.target.closest('a');
   if (eventTarget) {
     const photoIndex = Number(eventTarget.dataset.index);
 
     //Собираем модальное окно на основе исходных данных
-    createBigPictureWindow(GENERATED_PHOTOS_DATA, photoIndex);
+    createBigPictureWindow(photos, photoIndex);
 
     //Показываем модальное окно пользователю
     bigPictureWindow.classList.remove('hidden');

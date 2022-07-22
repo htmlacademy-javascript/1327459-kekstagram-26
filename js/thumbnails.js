@@ -1,13 +1,10 @@
-import {GENERATED_PHOTOS_DATA} from './data.js';
-import { openBigPictureWindow } from './big-picture.js';
-
 //Функция по отрисовке миниатюр фотографий
-function renderThumbnails(photosArray) {
+function renderThumbnails(photos) {
   const thumbnailsContainer = document.querySelector('.pictures');
   const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
   const thumbnailsListFragment = document.createDocumentFragment();
 
-  photosArray.forEach(({likes, comments, url, id}) => {
+  photos.forEach(({likes, comments, url, id}) => {
     const thumbnailElement = thumbnailTemplate.cloneNode(true);
     thumbnailElement.querySelector('.picture__likes').textContent = likes;
     thumbnailElement.querySelector('.picture__comments').textContent = comments.length;
@@ -17,11 +14,6 @@ function renderThumbnails(photosArray) {
   });
 
   thumbnailsContainer.append(thumbnailsListFragment);
-  //Добавляем обработчик события по клику для открытия модального окна с большой фотографией
-  thumbnailsContainer.addEventListener('click', (evt) => {
-    openBigPictureWindow(evt);
-  });
 }
 
-//Отрисовываем миниатюры фотографий на основе сгенерированных данных
-renderThumbnails(GENERATED_PHOTOS_DATA);
+export {renderThumbnails};
