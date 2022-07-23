@@ -18,7 +18,7 @@ function getRandomArrayElement(targetArray) {
   return targetArray[getRandomInt(0, targetArray.length-1)];
 }
 
-//Функция показа служебного сообщения
+//Функция показа предупреждающего сообщения
 function showAlert(message) {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '100';
@@ -42,25 +42,27 @@ function showAlert(message) {
   }, ALERT_SHOW_TIME);
 }
 
-//Функция показа успешного сообщения
-function showSuccessMessage() {
-  const successMessageTemplate = document.querySelector('#success').content.querySelector('.success');
-  const successMessage = successMessageTemplate.cloneNode(true);
-  document.body.append(successMessage);
-  successMessage.querySelector('.success__button').addEventListener('click', () => {
-    successMessage.remove();
+// Функция показа служебного сообщения
+function showMessage(typeOfMessage) {
+  const messageTemplate = document.querySelector(`#${typeOfMessage}`).content.querySelector(`.${typeOfMessage}`);
+  const message = messageTemplate.cloneNode(true);
+  message.style.zIndex = 100;
+  document.body.append(message);
+  message.querySelector(`.${typeOfMessage}__button`).addEventListener('click', () => {
+    closeMessage(message);
   });
 }
 
-//Функция показа сообщения об ошибке
-function showErrorMessage() {
-  const errorMessageTemplate = document.querySelector('#error').content.querySelector('.error');
-  const errorMessage = errorMessageTemplate.cloneNode(true);
-  errorMessage.style.zIndex = 100;
-  document.body.append(errorMessage);
-  errorMessage.querySelector('.error__button').addEventListener('click', () => {
-    errorMessage.remove();
-  });
+//Функция закрытия сообщения
+function closeMessage(messageElement) {
+  messageElement.remove();
 }
 
-export {getRandomInt, checkStringLength, getRandomArrayElement, showAlert, showSuccessMessage, showErrorMessage};
+function onOutsideClick(evt) {
+  const targetContainer = document.querySelector('div.error__inner');
+  if (!evt.target.composedPath().includes(targetContainer)) {
+
+  }
+}
+
+export {getRandomInt, checkStringLength, getRandomArrayElement, showAlert, showMessage};

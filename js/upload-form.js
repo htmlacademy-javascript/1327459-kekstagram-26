@@ -1,4 +1,4 @@
-import {checkStringLength, showSuccessMessage, showErrorMessage} from './util.js';
+import {checkStringLength, showMessage} from './util.js';
 import {reducePictureScale, increasePictureScale, resetPictureScale} from './picture-scale.js';
 import { resetPictureEffects, resetSliderSettings, onPictureEffectsControlChange } from './picture-effects.js';
 import {sendData} from './api.js';
@@ -115,11 +115,11 @@ function setUploadImageFormSubmit(onSuccess) {
       sendData(
         () => {
           onSuccess();
-          showSuccessMessage();
+          showMessage('success');
           uploadImageFormSubmitButton.disabled = false;
         },
         () => {
-          showErrorMessage();
+          showMessage('error');
           uploadImageFormSubmitButton.disabled = false;
         },
         new FormData(evt.target)

@@ -15,7 +15,7 @@ function getData(onSuccess, onFail) {
 
 // Функция отправки данных на сервер
 function sendData(onSuccess, onFail, body) {
-  fetch('https://26.javascript.pages.academy/kekstagram',
+  fetch('https://26.javascript.pages.academy/kekstagram1',
     {
       method: 'POST',
       body,
