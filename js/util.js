@@ -45,23 +45,31 @@ function showAlert(message) {
 // Функция показа служебного сообщения
 function showMessage(typeOfMessage) {
   const messageTemplate = document.querySelector(`#${typeOfMessage}`).content.querySelector(`.${typeOfMessage}`);
-  const message = messageTemplate.cloneNode(true);
-  message.style.zIndex = 100;
-  document.body.append(message);
-  message.querySelector(`.${typeOfMessage}__button`).addEventListener('click', () => {
-    closeMessage(message);
+  const messageElement = messageTemplate.cloneNode(true);
+  messageElement.style.zIndex = 100;
+  document.body.append(messageElement);
+  messageElement.querySelector(`.${typeOfMessage}__button`).addEventListener('click', () => {
+    closeMessage();
   });
-}
+  document.addEventListener('click', onOutsideClick);
+  document.addEventListener('keydown', onMessageEscKeydown);
 
-//Функция закрытия сообщения
-function closeMessage(messageElement) {
-  messageElement.remove();
-}
+  function closeMessage() {
+    messageElement.remove();
+    document.removeEventListener('click', onOutsideClick);
+    document.removeEventListener('keydown', onMessageEscKeydown);
+  }
 
-function onOutsideClick(evt) {
-  const targetContainer = document.querySelector('div.error__inner');
-  if (!evt.target.composedPath().includes(targetContainer)) {
+  function onOutsideClick(evt) {
+    if (!evt.target.closest(`div.${typeOfMessage}__inner`)) {
+      closeMessage();
+    }
+  }
 
+  function onMessageEscKeydown(evt) {
+    if (evt.key === 'Escape') {
+      closeMessage();
+    }
   }
 }
 
