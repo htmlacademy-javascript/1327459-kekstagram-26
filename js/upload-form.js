@@ -63,7 +63,7 @@ function closeUploadImageOverlay() {
 
 //Обработчик события нажатия клавиши ESС при открытом окне загрузки изображения
 function onUploadImageOverlayEscKeydown(evt) {
-  if (evt.key === 'Escape') {
+  if (evt.key === 'Escape' && (document.body.getElementsByClassName('error').length === 0)) {
     if (!Array.from(evt.target.classList).some((className) => ['text__hashtags', 'text__description'].includes(className))) {
       evt.preventDefault();
       closeUploadImageOverlay();
