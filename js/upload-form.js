@@ -1,6 +1,7 @@
-import {checkStringLength} from './util.js';
+import {checkStringLength, showMessage} from './util.js';
 import {reducePictureScale, increasePictureScale, resetPictureScale} from './picture-scale.js';
 import { resetPictureEffects, resetSliderSettings, onPictureEffectsControlChange } from './picture-effects.js';
+import {sendData} from './api.js';
 
 const uploadImageForm = document.querySelector('#upload-select-image');
 const uploadImageOverlay = uploadImageForm.querySelector('.img-upload__overlay');
@@ -8,6 +9,8 @@ const uploadImageOverlayCloseButton = uploadImageForm.querySelector('#upload-can
 const uploadImageFileInput = uploadImageForm.querySelector('#upload-file');
 const hashtagsTextInput = uploadImageForm.querySelector('input[name="hashtags"]');
 const commentTextInput = uploadImageForm.querySelector('textarea[name="description"]');
+
+const uploadImageFormSubmitButton = uploadImageForm.querySelector('#upload-submit');
 
 const smallerScaleButton = document.querySelector('.scale__control--smaller');
 const biggerScaleButton = document.querySelector('.scale__control--bigger');
@@ -43,12 +46,6 @@ function openUploadImageOverlay() {
   resetSliderSettings();
 }
 
-// Функция сброса поля ввода и сообщений об ошибках
-function resetInputValueAndErrorMessages(targetInput) {
-  targetInput.value = '';
-  pristine.reset();
-}
-
 //Функция закрытия окна загрузки изображения
 function closeUploadImageOverlay() {
   uploadImageOverlay.classList.add('hidden');
@@ -58,14 +55,15 @@ function closeUploadImageOverlay() {
   smallerScaleButton.removeEventListener('click', reducePictureScale);
   biggerScaleButton.removeEventListener('click', increasePictureScale);
   effectsControlList.removeEventListener('change', onPictureEffectsControlChange);
-  resetInputValueAndErrorMessages(uploadImageFileInput);
+  pristine.reset();
+  uploadImageForm.reset();
   resetPictureScale();
   resetPictureEffects();
 }
 
 //Обработчик события нажатия клавиши ESС при открытом окне загрузки изображения
 function onUploadImageOverlayEscKeydown(evt) {
-  if (evt.key === 'Escape') {
+  if (evt.key === 'Escape' && (document.body.getElementsByClassName('error').length === 0)) {
     if (!Array.from(evt.target.classList).some((className) => ['text__hashtags', 'text__description'].includes(className))) {
       evt.preventDefault();
       closeUploadImageOverlay();
@@ -108,9 +106,26 @@ function validateCommentMaxLength(value) {
 
 pristine.addValidator(commentTextInput, validateCommentMaxLength, '*Длина комментария не должна превышать 140 символов.', 2, true);
 
-uploadImageForm.addEventListener('submit', (evt) => {
-  const isValid = pristine.validate();
-  if (!isValid) {
+function setUploadImageFormSubmit(onSuccess) {
+  uploadImageForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-  }
-});
+    const isValid = pristine.validate();
+    if (isValid) {
+      uploadImageFormSubmitButton.disabled = true;
+      sendData(
+        () => {
+          onSuccess();
+          showMessage('success');
+          uploadImageFormSubmitButton.disabled = false;
+        },
+        () => {
+          showMessage('error');
+          uploadImageFormSubmitButton.disabled = false;
+        },
+        new FormData(evt.target)
+      );
+    }
+  });
+}
+
+export {setUploadImageFormSubmit, closeUploadImageOverlay};
