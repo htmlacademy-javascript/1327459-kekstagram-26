@@ -4,7 +4,7 @@ import { getData } from './api.js';
 import {openBigPictureWindow} from './big-picture.js';
 import { renderThumbnails, setThumbnailsClick } from './thumbnails.js';
 import { showAlert } from './util.js';
-import {showFilter, setFilterSectionClick, onFilterSectionClick} from './filter.js';
+import {showFilter, setFilterSectionClick, applyFilter} from './filter.js';
 
 getData((photosData) => {
   renderThumbnails(photosData);
@@ -12,8 +12,8 @@ getData((photosData) => {
     openBigPictureWindow(evt, photosData);
   });
   showFilter();
-  setFilterSectionClick((evt) => {
-    onFilterSectionClick(evt, photosData);
+  setFilterSectionClick((currentFilter) => {
+    applyFilter(currentFilter, photosData);
   });
 }, showAlert);
 
