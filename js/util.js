@@ -7,6 +7,23 @@ function getRandomInt(numberA, numberB) {
   return Math.floor(Math.random() * (rangeEnd - rangeStart + 1)) + rangeStart;
 }
 
+//Функция, возвращающая набор случайных неповторяющихся цифр из заданного диапазона
+function getRandomUniqIntNumbersFromRange(min, max, countNumbers) {
+  const rangeLength = (Math.floor(Math.max(Math.abs(min), Math.abs(max))) - Math.ceil(Math.min(Math.abs(min), Math.abs(max)))) + 1;
+  const numbers = [];
+  if (countNumbers <= rangeLength) {
+    for (let i = 0; i < countNumbers; i++) {
+      let currentNumber = getRandomInt(min, max);
+      while (numbers.includes(currentNumber)) {
+        currentNumber = getRandomInt(min, max);
+      }
+      numbers[i] = currentNumber;
+    }
+    return numbers;
+  }
+  return false;
+}
+
 //Функция для проверки длины строки
 function checkStringLength(currentString, maxLength) {
   currentString = String(currentString);
@@ -73,4 +90,4 @@ function showMessage(typeOfMessage) {
   }
 }
 
-export {getRandomInt, checkStringLength, getRandomArrayElement, showAlert, showMessage};
+export {checkStringLength, getRandomArrayElement, showAlert, showMessage, getRandomUniqIntNumbersFromRange};
