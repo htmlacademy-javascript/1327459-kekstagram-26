@@ -4,6 +4,8 @@ function renderThumbnails(photos) {
   const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
   const thumbnailsListFragment = document.createDocumentFragment();
 
+  thumbnailsContainer.querySelectorAll('.picture').forEach((picture) => picture.remove());
+
   photos.forEach(({likes, comments, url, id}) => {
     const thumbnailElement = thumbnailTemplate.cloneNode(true);
     thumbnailElement.querySelector('.picture__likes').textContent = likes;

@@ -13,7 +13,7 @@ getData((photosData) => {
   thumbnailsContainer.addEventListener('click', (evt) => {
     openBigPictureWindow(evt, photosData);
   });
-  showFilter();
+  showFilter(photosData);
 }, showAlert);
 
 setUploadImageFormSubmit(closeUploadImageOverlay);
