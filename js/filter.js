@@ -3,23 +3,21 @@ import {renderThumbnails} from './thumbnails.js';
 
 const filterSection = document.querySelector('.img-filters');
 
-let currentFilter = 'filter-default';
-
-function showFilter(photosData) {
+function showFilter() {
   filterSection.classList.remove('img-filters--inactive');
-  filterSection.addEventListener('click', onfilterButtonClick);
+}
 
-  function onfilterButtonClick(evt) {
+function setFilterSectionClick(cb) {
+  filterSection.addEventListener('click', (evt) => {
     const eventTarget = evt.target.closest('.img-filters__button');
     if (eventTarget) {
+      const currentFilter = eventTarget.id;
       const filterButtons = filterSection.querySelectorAll('.img-filters__button');
       filterButtons.forEach((filterButton) => filterButton.classList.remove('img-filters__button--active'));
       eventTarget.classList.add('img-filters__button--active');
-
-      currentFilter = eventTarget.id;
-      applyFilter(currentFilter, photosData);
+      cb(currentFilter);
     }
-  }
+  });
 }
 
 function applyFilter(typeOfFilter, photosData) {
@@ -50,4 +48,4 @@ function comparePhotosByCommentsNumber(photoA, photoB) {
   return photoB.comments.length - photoA.comments.length;
 }
 
-export {showFilter};
+export {showFilter, setFilterSectionClick, applyFilter};

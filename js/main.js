@@ -1,19 +1,20 @@
 import './picture-effects.js';
 import {setUploadImageFormSubmit, closeUploadImageOverlay} from './upload-form.js';
 import { getData } from './api.js';
-import { renderThumbnails } from './thumbnails.js';
 import {openBigPictureWindow} from './big-picture.js';
+import { renderThumbnails, setThumbnailsClick } from './thumbnails.js';
 import { showAlert } from './util.js';
-import {showFilter} from './filter.js';
-
-const thumbnailsContainer = document.querySelector('.pictures');
+import {showFilter, setFilterSectionClick, applyFilter} from './filter.js';
 
 getData((photosData) => {
   renderThumbnails(photosData);
-  thumbnailsContainer.addEventListener('click', (evt) => {
+  setThumbnailsClick((evt) => {
     openBigPictureWindow(evt, photosData);
   });
-  showFilter(photosData);
+  showFilter();
+  setFilterSectionClick((currentFilter) => {
+    applyFilter(currentFilter, photosData);
+  });
 }, showAlert);
 
 setUploadImageFormSubmit(closeUploadImageOverlay);

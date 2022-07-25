@@ -1,6 +1,7 @@
 //Функция по отрисовке миниатюр фотографий
+const thumbnailsContainer = document.querySelector('.pictures');
+
 function renderThumbnails(photos) {
-  const thumbnailsContainer = document.querySelector('.pictures');
   const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
   const thumbnailsListFragment = document.createDocumentFragment();
 
@@ -18,4 +19,10 @@ function renderThumbnails(photos) {
   thumbnailsContainer.append(thumbnailsListFragment);
 }
 
-export {renderThumbnails};
+function setThumbnailsClick(cb) {
+  thumbnailsContainer.addEventListener('click', (evt) => {
+    cb(evt);
+  });
+}
+
+export {renderThumbnails, setThumbnailsClick};
