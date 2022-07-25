@@ -5,6 +5,7 @@ import {openBigPictureWindow} from './big-picture.js';
 import { renderThumbnails, setThumbnailsClick } from './thumbnails.js';
 import { showAlert } from './util.js';
 import {showFilter, setFilterSectionClick, applyFilter} from './filter.js';
+import {debounce} from './debounce.js';
 
 getData((photosData) => {
   renderThumbnails(photosData);
@@ -12,9 +13,9 @@ getData((photosData) => {
     openBigPictureWindow(evt, photosData);
   });
   showFilter();
-  setFilterSectionClick((currentFilter) => {
+  setFilterSectionClick(debounce((currentFilter) => {
     applyFilter(currentFilter, photosData);
-  });
+  }, 500));
 }, showAlert);
 
 setUploadImageFormSubmit(closeUploadImageOverlay);
