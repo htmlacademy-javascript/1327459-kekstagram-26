@@ -9,15 +9,19 @@ function showFilter() {
 
 function setFilterSectionClick(cb) {
   filterSection.addEventListener('click', (evt) => {
-    const eventTarget = evt.target.closest('.img-filters__button');
-    if (eventTarget) {
-      const currentFilter = eventTarget.id;
-      const filterButtons = filterSection.querySelectorAll('.img-filters__button');
-      filterButtons.forEach((filterButton) => filterButton.classList.remove('img-filters__button--active'));
-      eventTarget.classList.add('img-filters__button--active');
-      cb(currentFilter);
-    }
+    cb(evt);
   });
+}
+
+function onFilterSectionClick(evt, photosData) {
+  const eventTarget = evt.target.closest('.img-filters__button');
+  if (eventTarget) {
+    const currentFilter = eventTarget.id;
+    const filterButtons = filterSection.querySelectorAll('.img-filters__button');
+    filterButtons.forEach((filterButton) => filterButton.classList.remove('img-filters__button--active'));
+    eventTarget.classList.add('img-filters__button--active');
+    applyFilter(currentFilter, photosData);
+  }
 }
 
 function applyFilter(typeOfFilter, photosData) {
@@ -48,4 +52,4 @@ function comparePhotosByCommentsNumber(photoA, photoB) {
   return photoB.comments.length - photoA.comments.length;
 }
 
-export {showFilter, setFilterSectionClick, applyFilter};
+export {showFilter, setFilterSectionClick, applyFilter, onFilterSectionClick};
