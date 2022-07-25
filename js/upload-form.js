@@ -3,7 +3,9 @@ import {reducePictureScale, increasePictureScale, resetPictureScale} from './pic
 import { resetPictureEffects, resetSliderSettings, onPictureEffectsControlChange } from './picture-effects.js';
 import {sendData} from './api.js';
 
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 const uploadImageForm = document.querySelector('#upload-select-image');
+const uploadImagePreview = uploadImageForm.querySelector('.img-upload__preview img');
 const uploadImageOverlay = uploadImageForm.querySelector('.img-upload__overlay');
 const uploadImageOverlayCloseButton = uploadImageForm.querySelector('#upload-cancel');
 const uploadImageFileInput = uploadImageForm.querySelector('#upload-file');
@@ -33,6 +35,18 @@ const pristine = new Pristine(uploadImageForm, {
 //Добавляем обработчик события выбора изображения для загрузки
 uploadImageFileInput.addEventListener('change', openUploadImageOverlay);
 
+function renderPreviewImage() {
+  const file = uploadImageFileInput.files[0];
+  const fileName = file.name.toLowerCase();
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  if (matches) {
+    uploadImagePreview.src = URL.createObjectURL(file);
+  } else {
+    showMessage('file-type-error');
+    closeUploadImageOverlay();
+  }
+}
+
 //Функция открытия окна загрузки изображения
 function openUploadImageOverlay() {
   uploadImageOverlay.classList.remove('hidden');
@@ -44,6 +58,7 @@ function openUploadImageOverlay() {
   biggerScaleButton.addEventListener('click', increasePictureScale);
   effectsControlList.addEventListener('change', onPictureEffectsControlChange);
   resetSliderSettings();
+  renderPreviewImage();
 }
 
 //Функция закрытия окна загрузки изображения
