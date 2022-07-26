@@ -17,6 +17,7 @@ const sendData = (onSuccess, onFail, body) => {
     {
       method: 'POST',
       body,
+      type: 'multipart/form-data',
     })
     .then((response) => {
       if (response.ok) {
