@@ -1,6 +1,6 @@
 import {checkStringLength, showMessage} from './util.js';
 import {reducePictureScale, increasePictureScale, resetPictureScale} from './picture-scale.js';
-import { resetPictureEffects, resetSliderSettings, onPictureEffectsControlChange } from './picture-effects.js';
+import {resetPictureEffects, resetSliderSettings, onPictureEffectsControlChange} from './picture-effects.js';
 import {sendData} from './api.js';
 
 const uploadImageForm = document.querySelector('#upload-select-image');
@@ -19,7 +19,28 @@ const biggerScaleButton = document.querySelector('.scale__control--bigger');
 
 const effectsControlList = document.querySelector('.effects__list');
 
-uploadImageFileInput.addEventListener('change', openUploadImageOverlay);
+const pristine = new Pristine(uploadImageForm, {
+  classTo: 'img-upload__field-wrapper',
+  errorClass: 'has-danger',
+  successClass: 'has-success',
+  errorTextParent: 'img-upload__field-wrapper',
+  errorTextTag: 'div',
+  errorTextClass: 'text-help'
+});
+
+const closeUploadImageOverlay = () => {
+  uploadImageOverlay.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onUploadImageOverlayEscKeydown);
+  uploadImageOverlayCloseButton.removeEventListener('click', closeUploadImageOverlay);
+  smallerScaleButton.removeEventListener('click', reducePictureScale);
+  biggerScaleButton.removeEventListener('click', increasePictureScale);
+  effectsControlList.removeEventListener('change', onPictureEffectsControlChange);
+  pristine.reset();
+  uploadImageForm.reset();
+  resetPictureScale();
+  resetPictureEffects();
+};
 
 const renderPreviewImage = () => {
   const file = uploadImageFileInput.files[0];
@@ -46,28 +67,16 @@ const openUploadImageOverlay = () => {
   renderPreviewImage();
 };
 
-const closeUploadImageOverlay = () => {
-  uploadImageOverlay.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onUploadImageOverlayEscKeydown);
-  uploadImageOverlayCloseButton.removeEventListener('click', closeUploadImageOverlay);
-  smallerScaleButton.removeEventListener('click', reducePictureScale);
-  biggerScaleButton.removeEventListener('click', increasePictureScale);
-  effectsControlList.removeEventListener('change', onPictureEffectsControlChange);
-  pristine.reset();
-  uploadImageForm.reset();
-  resetPictureScale();
-  resetPictureEffects();
-};
+uploadImageFileInput.addEventListener('change', openUploadImageOverlay);
 
-const onUploadImageOverlayEscKeydown = (evt) => {
+function onUploadImageOverlayEscKeydown(evt) {
   if (evt.key === 'Escape' && (document.body.getElementsByClassName('error').length === 0)) {
     if (!Array.from(evt.target.classList).some((className) => ['text__hashtags', 'text__description'].includes(className))) {
       evt.preventDefault();
       closeUploadImageOverlay();
     }
   }
-};
+}
 
 const checkHashtagOnSymbols = (currentValue) => {
   const re = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
@@ -84,15 +93,6 @@ const validateHashtagsOnRepeat = (value) => {
 };
 
 const validateCommentMaxLength = (value) => checkStringLength(value, 140);
-
-const pristine = new Pristine(uploadImageForm, {
-  classTo: 'img-upload__field-wrapper',
-  errorClass: 'has-danger',
-  successClass: 'has-success',
-  errorTextParent: 'img-upload__field-wrapper',
-  errorTextTag: 'div',
-  errorTextClass: 'text-help'
-});
 
 pristine.addValidator(hashtagsTextInput, validateHashtagsOnSymbols, '- *Хеш-теги должны начинаться с "#" и содержать от 1 до 19 символов;<br>- *Хеш-теги должны разделяться между собой пробелами.');
 pristine.addValidator(hashtagsTextInput, validateHashtagsNumber, '*Допускается не более 5-ти хеш-тегов.');
@@ -121,4 +121,4 @@ const setUploadImageFormSubmit = (onSuccess) => {
   });
 };
 
-export {setUploadImageFormSubmit, closeUploadImageOverlay};
+export {closeUploadImageOverlay, setUploadImageFormSubmit};

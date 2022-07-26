@@ -1,6 +1,7 @@
 const picture = document.querySelector('.img-upload__preview img');
 const effectLevelSlider = document.querySelector('.effect-level__slider');
 const effectLevelInput = document.querySelector('.effect-level__value');
+
 let currentCssFilterProperty = '';
 let currentCssFilterPropertyUnit = '';
 
@@ -64,30 +65,25 @@ effectLevelSlider.noUiSlider.on('update', () => {
   picture.style.filter = `${currentCssFilterProperty}(${effectLevelInput.value}${currentCssFilterPropertyUnit})`;
 });
 
-//Функция применения фильтра к текущей фотографии
-function applyClass(effectClass) {
+const applyClass = (effectClass) => {
   picture.className = '';
   picture.classList.add(effectClass);
-}
+};
 
-//Функция обновления параметров слайдера
-function updateSliderSettings(settings) {
+const updateSliderSettings = (settings) => {
   effectLevelSlider.noUiSlider.updateOptions(settings);
-}
+};
 
-//Функция сброса эффектов картинки
-function resetPictureEffects() {
+const resetPictureEffects = () => {
   picture.classList = '';
   picture.style.filter = '';
-}
+};
 
-//Функция сброса параметров слайдера
-function resetSliderSettings() {
+const resetSliderSettings = () => {
   effectLevelSlider.style.display = 'none';
-}
+};
 
-//Обработчик события изменения текущего фильтра
-function onPictureEffectsControlChange(evt) {
+const onPictureEffectsControlChange = (evt) => {
   if (evt.target.closest('input[type="radio"].effects__radio')) {
     const currentKey = effectsDataList[evt.target.value];
 
@@ -102,6 +98,6 @@ function onPictureEffectsControlChange(evt) {
 
     updateSliderSettings(currentKey.settings);
   }
-}
+};
 
 export {resetPictureEffects, resetSliderSettings, onPictureEffectsControlChange};

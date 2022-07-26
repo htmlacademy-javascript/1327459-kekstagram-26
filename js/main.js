@@ -15,7 +15,7 @@ getData((photosData) => {
   showFilter();
   setFilterSectionClick(debounce((currentFilter) => {
     applyFilter(currentFilter, photosData);
-  }, 500));
+  }));
 }, showAlert);
 
 setUploadImageFormSubmit(closeUploadImageOverlay);
