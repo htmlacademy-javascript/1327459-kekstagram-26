@@ -1,13 +1,14 @@
-import { getRandomUniqIntNumbersFromRange } from './util.js';
+import {getRandomUniqIntNumbersFromRange} from './util.js';
 import {renderThumbnails} from './thumbnails.js';
 
+const RANDOM_PICURES_COUNT = 10;
 const filterSection = document.querySelector('.img-filters');
 
-function showFilter() {
+const showFilter = () => {
   filterSection.classList.remove('img-filters--inactive');
-}
+};
 
-function setFilterSectionClick(cb) {
+const setFilterSectionClick = (cb) => {
   filterSection.addEventListener('click', (evt) => {
     const eventTarget = evt.target.closest('.img-filters__button');
     if (eventTarget) {
@@ -18,34 +19,29 @@ function setFilterSectionClick(cb) {
       cb(currentFilter);
     }
   });
-}
+};
 
-function applyFilter(typeOfFilter, photosData) {
+const getRandomPhotos = (photosData, number = RANDOM_PICURES_COUNT) => {
+  const randomIdNumbers = getRandomUniqIntNumbersFromRange(0, 24, number);
+  return photosData.filter((photo) => randomIdNumbers.includes(photo.id));
+};
+
+const comparePhotosByCommentsNumber = (photoA, photoB) => photoB.comments.length - photoA.comments.length;
+
+const sortPhotosByCommentsNumber = (photosData) => photosData.slice().sort(comparePhotosByCommentsNumber);
+
+const applyFilter = (typeOfFilter, photosData) => {
   if (typeOfFilter === 'filter-default') {
     renderThumbnails(photosData);
   }
   if (typeOfFilter === 'filter-random') {
-    const randomPhotos = getRandomPhotos(photosData, 10);
+    const randomPhotos = getRandomPhotos(photosData);
     renderThumbnails(randomPhotos);
   }
   if (typeOfFilter === 'filter-discussed') {
     const discussedPhotos = sortPhotosByCommentsNumber(photosData);
     renderThumbnails(discussedPhotos);
   }
-}
-
-
-function getRandomPhotos(photosData, number) {
-  const randomIdNumbers = getRandomUniqIntNumbersFromRange(0, 24, number);
-  return photosData.filter((photo) => randomIdNumbers.includes(photo.id));
-}
-
-function sortPhotosByCommentsNumber(photosData) {
-  return photosData.slice().sort(comparePhotosByCommentsNumber);
-}
-
-function comparePhotosByCommentsNumber(photoA, photoB) {
-  return photoB.comments.length - photoA.comments.length;
-}
+};
 
 export {showFilter, setFilterSectionClick, applyFilter};

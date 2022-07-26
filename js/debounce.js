@@ -1,4 +1,6 @@
-function debounce(callback, timeoutDelay) {
+const TIMEOUT_DELAY = 500;
+
+function debounce(callback, timeoutDelay = TIMEOUT_DELAY) {
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);
