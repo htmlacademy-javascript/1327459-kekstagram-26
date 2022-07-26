@@ -1,14 +1,12 @@
 const ALERT_SHOW_TIME = 10000;
 
-//Функция, возвращающая случайное целое положительное число из заданного интервала
-function getRandomInt(numberA, numberB) {
+const getRandomInt = (numberA, numberB) => {
   const rangeStart = Math.ceil(Math.min(Math.abs(numberA), Math.abs(numberB)));
   const rangeEnd = Math.floor(Math.max(Math.abs(numberA), Math.abs(numberB)));
   return Math.floor(Math.random() * (rangeEnd - rangeStart + 1)) + rangeStart;
-}
+};
 
-//Функция, возвращающая набор случайных неповторяющихся цифр из заданного диапазона
-function getRandomUniqIntNumbersFromRange(min, max, countNumbers) {
+const getRandomUniqIntNumbersFromRange = (min, max, countNumbers) => {
   const rangeLength = (Math.floor(Math.max(Math.abs(min), Math.abs(max))) - Math.ceil(Math.min(Math.abs(min), Math.abs(max)))) + 1;
   const numbers = [];
   if (countNumbers <= rangeLength) {
@@ -22,21 +20,14 @@ function getRandomUniqIntNumbersFromRange(min, max, countNumbers) {
     return numbers;
   }
   return false;
-}
+};
 
-//Функция для проверки длины строки
-function checkStringLength(currentString, maxLength) {
+const checkStringLength = (currentString, maxLength) => {
   currentString = String(currentString);
   return currentString.length <= maxLength;
-}
+};
 
-//Функция для выбора случайного элемента из массива
-function getRandomArrayElement(targetArray) {
-  return targetArray[getRandomInt(0, targetArray.length-1)];
-}
-
-//Функция показа предупреждающего сообщения
-function showAlert(message) {
+const showAlert = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = '100';
   alertContainer.style.position = 'absolute';
@@ -57,10 +48,9 @@ function showAlert(message) {
   setTimeout(() => {
     alertContainer.remove();
   }, ALERT_SHOW_TIME);
-}
+};
 
-// Функция показа служебного сообщения
-function showMessage(typeOfMessage) {
+const showMessage = (typeOfMessage) => {
   const messageTemplate = document.querySelector(`#${typeOfMessage}`).content.querySelector(`.${typeOfMessage}`);
   const messageElement = messageTemplate.cloneNode(true);
   messageElement.style.zIndex = 100;
@@ -88,6 +78,6 @@ function showMessage(typeOfMessage) {
       closeMessage();
     }
   }
-}
+};
 
-export {checkStringLength, getRandomArrayElement, showAlert, showMessage, getRandomUniqIntNumbersFromRange};
+export {getRandomUniqIntNumbersFromRange, checkStringLength, showAlert, showMessage};
