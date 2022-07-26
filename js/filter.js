@@ -1,4 +1,4 @@
-import { getRandomUniqIntNumbersFromRange } from './util.js';
+import {getRandomUniqIntNumbersFromRange} from './util.js';
 import {renderThumbnails} from './thumbnails.js';
 
 const RANDOM_PICURES_COUNT = 10;
