@@ -1,6 +1,7 @@
 const picture = document.querySelector('.img-upload__preview img');
 const effectLevelSlider = document.querySelector('.effect-level__slider');
 const effectLevelInput = document.querySelector('.effect-level__value');
+const effectLevelBar = document.querySelector('.img-upload__effect-level');
 
 let currentCssFilterProperty = '';
 let currentCssFilterPropertyUnit = '';
@@ -80,7 +81,7 @@ const resetPictureEffects = () => {
 };
 
 const resetSliderSettings = () => {
-  effectLevelSlider.style.display = 'none';
+  effectLevelBar.style.display = 'none';
 };
 
 const onPictureEffectsControlChange = (evt) => {
@@ -90,7 +91,7 @@ const onPictureEffectsControlChange = (evt) => {
     applyClass(currentKey.class);
 
     const currentVisibility = currentKey.display;
-    effectLevelSlider.style.display = currentVisibility;
+    effectLevelBar.style.display = currentVisibility;
 
     currentCssFilterProperty = currentKey.filter;
     currentCssFilterPropertyUnit = currentKey.unit;
