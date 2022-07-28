@@ -11,7 +11,7 @@ const changePictureScale = () => {
   picture.style.transform = `scale(${scaleValue / 100})`;
 };
 
-const reducePictureScale = () => {
+const onSmallerScaleButtonClick = () => {
   const scaleValue = parseFloat(pictureScaleInput.value);
   if (scaleValue !== MIN_SCALE) {
     pictureScaleInput.value = `${scaleValue - STEP}%`;
@@ -19,7 +19,7 @@ const reducePictureScale = () => {
   }
 };
 
-const increasePictureScale = () => {
+const onBiggerScaleButtonClick = () => {
   const scaleValue = parseFloat(pictureScaleInput.value);
   if (scaleValue !== MAX_SCALE) {
     pictureScaleInput.value = `${scaleValue + STEP}%`;
@@ -31,4 +31,4 @@ const resetPictureScale = () => {
   picture.style.transform = '';
 };
 
-export {reducePictureScale, increasePictureScale, resetPictureScale};
+export {onSmallerScaleButtonClick, onBiggerScaleButtonClick, resetPictureScale};

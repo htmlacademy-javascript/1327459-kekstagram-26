@@ -1,4 +1,4 @@
-import {setUploadImageFormSubmit, closeUploadImageOverlay} from './upload-form.js';
+import {setUploadImageFormSubmit, onUploadImageOverlayCloseButtonClick} from './upload-form.js';
 import {getData} from './api.js';
 import {openBigPictureWindow} from './big-picture.js';
 import {renderThumbnails, setThumbnailsClick} from './thumbnails.js';
@@ -17,4 +17,4 @@ getData((photosData) => {
   }));
 }, showAlert);
 
-setUploadImageFormSubmit(closeUploadImageOverlay);
+setUploadImageFormSubmit(onUploadImageOverlayCloseButtonClick);

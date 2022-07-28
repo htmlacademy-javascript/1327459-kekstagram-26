@@ -1,5 +1,5 @@
 import {checkStringLength, isEscape, showMessage} from './util.js';
-import {reducePictureScale, increasePictureScale, resetPictureScale} from './picture-scale.js';
+import {onSmallerScaleButtonClick, onBiggerScaleButtonClick, resetPictureScale} from './picture-scale.js';
 import {resetPictureEffects, resetSliderSettings, onPictureEffectsControlChange} from './picture-effects.js';
 import {sendData} from './api.js';
 
@@ -28,13 +28,13 @@ const pristine = new Pristine(uploadImageForm, {
   errorTextClass: 'text-help'
 });
 
-const closeUploadImageOverlay = () => {
+const onUploadImageOverlayCloseButtonClick = () => {
   uploadImageOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onUploadImageOverlayEscKeydown);
-  uploadImageOverlayCloseButton.removeEventListener('click', closeUploadImageOverlay);
-  smallerScaleButton.removeEventListener('click', reducePictureScale);
-  biggerScaleButton.removeEventListener('click', increasePictureScale);
+  uploadImageOverlayCloseButton.removeEventListener('click', onUploadImageOverlayCloseButtonClick);
+  smallerScaleButton.removeEventListener('click', onSmallerScaleButtonClick);
+  biggerScaleButton.removeEventListener('click', onBiggerScaleButtonClick);
   effectsControlList.removeEventListener('change', onPictureEffectsControlChange);
   pristine.reset();
   uploadImageForm.reset();
@@ -50,7 +50,7 @@ const renderPreviewImage = () => {
     uploadImagePreview.src = URL.createObjectURL(file);
   } else {
     showMessage('file-type-error');
-    closeUploadImageOverlay();
+    onUploadImageOverlayCloseButtonClick();
   }
 };
 
@@ -58,10 +58,10 @@ const openUploadImageOverlay = () => {
   uploadImageOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
   document.addEventListener('keydown', onUploadImageOverlayEscKeydown);
-  uploadImageOverlayCloseButton.addEventListener('click', closeUploadImageOverlay);
+  uploadImageOverlayCloseButton.addEventListener('click', onUploadImageOverlayCloseButtonClick);
   commentTextInput.removeAttribute('maxlength');
-  smallerScaleButton.addEventListener('click', reducePictureScale);
-  biggerScaleButton.addEventListener('click', increasePictureScale);
+  smallerScaleButton.addEventListener('click', onSmallerScaleButtonClick);
+  biggerScaleButton.addEventListener('click', onBiggerScaleButtonClick);
   effectsControlList.addEventListener('change', onPictureEffectsControlChange);
   resetSliderSettings();
   renderPreviewImage();
@@ -73,7 +73,7 @@ function onUploadImageOverlayEscKeydown(evt) {
   if (isEscape(evt) && (document.body.getElementsByClassName('error').length === 0)) {
     if (!Array.from(evt.target.classList).some((className) => ['text__hashtags', 'text__description'].includes(className))) {
       evt.preventDefault();
-      closeUploadImageOverlay();
+      onUploadImageOverlayCloseButtonClick();
     }
   }
 }
@@ -121,4 +121,4 @@ const setUploadImageFormSubmit = (onSuccess) => {
   });
 };
 
-export {closeUploadImageOverlay, setUploadImageFormSubmit};
+export {onUploadImageOverlayCloseButtonClick, setUploadImageFormSubmit};
