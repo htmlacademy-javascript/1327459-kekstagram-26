@@ -1,5 +1,7 @@
 const ALERT_SHOW_TIME = 10000;
 
+const isEscape = (evt) => evt.key === 'Escape';
+
 const checkStringLength = (currentString, maxLength) => {
   currentString = String(currentString);
   return currentString.length <= maxLength;
@@ -52,10 +54,10 @@ const showMessage = (typeOfMessage) => {
   }
 
   function onMessageEscKeydown(evt) {
-    if (evt.key === 'Escape') {
+    if (isEscape(evt)) {
       closeMessage();
     }
   }
 };
 
-export {checkStringLength, showAlert, showMessage};
+export {isEscape, checkStringLength, showAlert, showMessage};

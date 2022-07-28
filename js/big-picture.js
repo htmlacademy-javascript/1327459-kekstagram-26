@@ -1,3 +1,5 @@
+import {isEscape} from './util.js';
+
 const bigPictureWindow = document.querySelector('.big-picture');
 const bigPictureWindowCloseButton = bigPictureWindow.querySelector('#picture-cancel');
 const commentsList = bigPictureWindow.querySelector('.social__comments');
@@ -91,7 +93,7 @@ const openBigPictureWindow = (evt, photos) => {
 };
 
 function onBigPictureWindowEscKeydown(evt) {
-  if (evt.key === 'Escape') {
+  if (isEscape(evt)) {
     evt.preventDefault();
     closeBigPictureWindow();
   }
