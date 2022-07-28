@@ -1,4 +1,3 @@
-import {getRandomUniqIntNumbersFromRange} from './util.js';
 import {renderThumbnails} from './thumbnails.js';
 
 const RANDOM_PICURES_COUNT = 10;
@@ -21,10 +20,7 @@ const setFilterSectionClick = (cb) => {
   });
 };
 
-const getRandomPhotos = (photosData, number = RANDOM_PICURES_COUNT) => {
-  const randomIdNumbers = getRandomUniqIntNumbersFromRange(0, 24, number);
-  return photosData.filter((photo) => randomIdNumbers.includes(photo.id));
-};
+const getRandomPhotos = (photosData) => photosData.slice().sort(() => Math.random() - 0.5).slice(0, RANDOM_PICURES_COUNT);
 
 const comparePhotosByCommentsNumber = (photoA, photoB) => photoB.comments.length - photoA.comments.length;
 

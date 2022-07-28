@@ -1,3 +1,5 @@
+import {isEscape} from './util.js';
+
 const bigPictureWindow = document.querySelector('.big-picture');
 const bigPictureWindowCloseButton = bigPictureWindow.querySelector('#picture-cancel');
 const commentsList = bigPictureWindow.querySelector('.social__comments');
@@ -43,7 +45,7 @@ const showFirstComments = (comments) => {
   }
 };
 
-const showMoreComments = () => {
+const onShowMoreCommentsButtonClick = () => {
   const addComments = currentPhotoComments.slice(commentsList.children.length, commentsList.children.length + MAX_NUMBER_OF_COMMENTS_TO_SHOW);
   commentsList.append(renderComments(addComments));
 
@@ -67,12 +69,12 @@ const createBigPictureWindow = (photosDataArray, elementDataIndex) => {
   showFirstComments(currentPhotoComments);
 };
 
-const closeBigPictureWindow = () => {
+const onBigPictureWindowCloseButtonClick = () => {
   bigPictureWindow.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onBigPictureWindowEscKeydown);
-  bigPictureWindowCloseButton.removeEventListener('click', closeBigPictureWindow);
-  showMoreCommentsButton.removeEventListener('click', showMoreComments);
+  bigPictureWindowCloseButton.removeEventListener('click', onBigPictureWindowCloseButtonClick);
+  showMoreCommentsButton.removeEventListener('click', onShowMoreCommentsButtonClick);
 };
 
 const openBigPictureWindow = (evt, photos) => {
@@ -85,15 +87,15 @@ const openBigPictureWindow = (evt, photos) => {
     document.body.classList.add('modal-open');
 
     document.addEventListener('keydown', onBigPictureWindowEscKeydown);
-    bigPictureWindowCloseButton.addEventListener('click', closeBigPictureWindow);
-    showMoreCommentsButton.addEventListener('click', showMoreComments);
+    bigPictureWindowCloseButton.addEventListener('click', onBigPictureWindowCloseButtonClick);
+    showMoreCommentsButton.addEventListener('click', onShowMoreCommentsButtonClick);
   }
 };
 
 function onBigPictureWindowEscKeydown(evt) {
-  if (evt.key === 'Escape') {
+  if (isEscape(evt)) {
     evt.preventDefault();
-    closeBigPictureWindow();
+    onBigPictureWindowCloseButtonClick();
   }
 }
 
