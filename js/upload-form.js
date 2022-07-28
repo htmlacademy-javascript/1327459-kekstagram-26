@@ -96,8 +96,8 @@ const validateCommentMaxLength = (value) => checkStringLength(value, COMMENT_MAX
 
 pristine.addValidator(hashtagsTextInput, validateHashtagsOnSymbols, '- *Хеш-теги должны начинаться с "#" и содержать от 1 до 19 символов;<br>- *Хеш-теги должны разделяться между собой пробелами.', 2, true);
 pristine.addValidator(hashtagsTextInput, validateHashtagsOnRepeat, '*Хеш-теги не должны повторяться.');
-pristine.addValidator(hashtagsTextInput, validateHashtagsNumber, '*Допускается не более 5-ти хеш-тегов.');
-pristine.addValidator(commentTextInput, validateCommentMaxLength, '*Длина комментария не должна превышать 140 символов.', 2, true);
+pristine.addValidator(hashtagsTextInput, validateHashtagsNumber, `*Допустимое количество хеш-тегов: не более ${MAX_HASHTAGS_NUMBER} шт.`);
+pristine.addValidator(commentTextInput, validateCommentMaxLength, `*Длина комментария не должна превышать ${COMMENT_MAX_LENGTH} символов.`, 2, true);
 
 const setUploadImageFormSubmit = (onSuccess) => {
   uploadImageForm.addEventListener('submit', (evt) => {
